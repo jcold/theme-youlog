@@ -63,7 +63,7 @@ jobs:
       with:
         commit_message: "${{ github.ref }} dist results, sha: ${{ github.sha }}"
         branch: refs/heads/pages
-        repository: dist/
+        repository: __everkm/dist/
         status_options: '--untracked-files=normal'
         add_options: '--force'
         push_options: '--force'
