@@ -1,0 +1,51 @@
+{
+  "name": "youlog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.5.2",
+  "devDependencies": {
+    "@babel/plugin-syntax-flow": "^7.26.0",
+    "@babel/preset-typescript": "^7.27.0",
+    "@iconify/json": "^2.2.329",
+    "@iconify/tailwind": "^1.2.0",
+    "autoprefixer": "^10.4.21",
+    "babel-preset-solid": "^1.9.5",
+    "chokidar": "^3.6.0",
+    "esbuild": "^0.25.2",
+    "esbuild-plugin-babel": "^0.2.3",
+    "esbuild-plugin-postcss": "^0.2.1",
+    "esbuild-style-plugin": "^1.6.3",
+    "postcss": "^8.5.3",
+    "postcss-import": "^16.1.0",
+    "tailwindcss": "^3.4.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  },
+  "dependencies": {
+    "@algolia/client-search": "^5.23.4",
+    "@floating-ui/dom": "^1.6.3",
+    "algoliasearch": "^5.23.4",
+    "ky": "^1.8.1",
+    "mark.js": "^8.11.1",
+    "mitt": "^3.0.1",
+    "nprogress": "^0.2.0",
+    "scroll-into-view-if-needed": "^3.1.0",
+    "solid-element": "^1.9.1",
+    "solid-js": "^1.9.5",
+    "throttle-debounce": "^5.0.2",
+    "universal-router": "^9.2.1",
+    "w3c-keyname": "^2.2.8"
+  }
+}

@@ -1,0 +1,42 @@
+/* FloatSearch组件样式 */
+em.hit-keyword {
+  @apply text-[#003dff] dark:text-[#58a6ff];
+  font-style: normal;
+}
+
+/* 快捷键样式 */
+.keycode {
+  @apply rounded-md border border-gray-300 bg-gray-100 px-1.5 py-0.5 text-xs dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300;
+}
+
+@keyframes loading-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+.loading-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  overflow: hidden;
+}
+
+.loading-bar::after {
+  content: '';
+  position: absolute;
+  width: 25%;
+  height: 100%;
+  background-color: var(--brand-primary);
+  animation: loading-slide 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+
+.in-search-opened {
+  @apply !overflow-hidden;
+}

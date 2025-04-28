@@ -1,0 +1,76 @@
+config:
+  site:
+    name: Youlog Theme
+    description: everkm publish theme youlog
+    keywords: everkm publish theme youlog
+    # logo: ~/assets/logos/everkm.svg
+
+  # 首页
+  home: /home.md
+  
+  layout:
+    # 是否仅显示logo，不显示站点名称
+    only_display_logo: true
+
+  # 主题色
+  theme_color: "#0f766e"
+  # 自定义颜色css文件
+  custom_css: ~/assets/my.css
+
+  # 版权信息
+  copyright:
+    # from_year: 2021
+    text: everkm
+    link: /
+  
+  # 备案信息
+  # beian:
+  #   - text: 苏ICP备2025000000号-1
+  #     link: /
+  #   - text: 苏公网安备2025000000号
+  #     link: /
+
+  algolia_search:
+    app_id: 1N74YC70XF
+    api_key: 95bb37e3122ee9cb57a8ee0abbd14409
+    index_name: yilog
+    site: theme-youlog
+
+  # 底部导航(仅支持一级导航)
+  bottom_nav:
+    - title: everkm
+      url: https://everkm.cn
+    - title: publish
+      url: https://publish.everkm.cn
+  
+  header_nav:
+    - title: 首页
+      url: /
+    - title: 文档
+      url: https://publish.everkm.cn/docs/
+    - title: 使用指南
+      url: https://publish.everkm.cn/guide/
+    # - title: 博客
+    #   url: /blog/
+    #   children:
+    #     - title: 最新文章
+    #       url: /blog/latest
+    #     - title: 标签分类
+    #       url: /blog/tags
+    #     - title: 归档
+    #       url: /blog/archive
+
+
+    
+
+# dir_tree:
+#   - name: 调料
+#     alias: tiaoliao
+
+
+sitemap:
+  children:
+    - path: "*"
+      qs:
+        __tpl: book.html
+        summary: /_SUMMARY.md

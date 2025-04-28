@@ -1,0 +1,26 @@
+@import './color.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .content-auto {
+    content-visibility: auto;
+  }
+}
+
+@layer base {
+  * {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+}
+
+/* 自定义阅读样式 */
+.custom-readability {
+  font-family: var(--reader-font-family, system-ui);
+  font-size: var(--reader-font-size, 16px);
+  line-height: var(--reader-line-height, 1.7);
+}

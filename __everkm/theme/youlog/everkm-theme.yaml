@@ -1,0 +1,15 @@
+name: youlog
+version: 0.1.0
+author: dayu<dayu@dayu.me>
+repository: https://github.com/everkm/theme-youlog
+demo: https://youlog.theme.everkm.com/
+
+# map_url:
+#   - dir: /
+#     url: /{{slug}}.html
+    
+sitemap:
+  children:
+    - path: "*"
+      qs:
+        __tpl: book.html

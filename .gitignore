@@ -1,6 +1,6 @@
 .vercel
 .DS_Store
 dist
-__everkm
 node_modules
 youlog.zip
+__everkm/youlog

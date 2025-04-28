@@ -1,0 +1,124 @@
+.nav-tree {
+  @apply overflow-y-auto;
+
+  &::-webkit-scrollbar {
+    @apply w-1.5;
+  }
+
+  &::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply bg-border-strong dark:bg-border-strong rounded-full;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    @apply bg-border-strong dark:bg-border;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-lg font-medium;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    position: relative;
+    margin: 2px 0;
+  }
+
+  li > p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .node-content {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px 4px 1em;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+
+    a {
+      @apply block;
+      /* 使链接撑满整个node-content区域 */
+      width: 100%;
+      height: 100%;
+      /* 取消链接的下划线 */
+      text-decoration: none;
+      /* 确保文本颜色正常 */
+      color: inherit;
+    }
+
+    /* 当node-content包含链接时添加指针样式 */
+    &:has(a) {
+      cursor: pointer;
+    }
+  }
+
+  li[data-depth] > .node-content {
+    padding-left: calc((var(--depth, 0) * 20px) + 1.7em);
+  }
+
+  li[data-depth] > .node-content:not(.with-toggle) {
+    padding-left: calc((var(--depth, 0) * 20px) + 1em);
+  }
+
+  .node-content:hover {
+    @apply bg-state-hover hover:bg-state-hover dark:hover:bg-state-hover;
+  }
+
+  /* 活动项样式 */
+  li.active > .node-content {
+    @apply bg-state-active dark:bg-state-active font-medium;
+  }
+
+  /* 活动链接样式 */
+  .active-link {
+    @apply text-brand-primary dark:text-brand-primary-light font-semibold;
+  }
+
+  .tree-node-branch > .with-toggle::before {
+    content: '▶';
+    position: absolute;
+    left: calc((var(--depth, 0) * 20px) + 1em);
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+
+  .tree-node-branch > .with-toggle.expanded::before {
+    transform: rotate(90deg);
+  }
+
+  .tree-node-leaf > .with-toggle::before {
+    content: '';
+    position: absolute;
+    left: calc((var(--depth, 0) * 20px) + 1em);
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .branch-node {
+    cursor: pointer;
+  }
+
+  /* 点击效果 */
+  .node-content:active {
+    @apply bg-state-active dark:bg-state-active;
+  }
+}

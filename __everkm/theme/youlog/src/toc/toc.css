@@ -1,0 +1,136 @@
+/**
+ * 目录组件样式 
+ */
+
+/* 自定义滚动条 */
+#toc::-webkit-scrollbar {
+  @apply w-1;
+}
+
+#toc::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+#toc::-webkit-scrollbar-thumb {
+  @apply bg-border dark:bg-border rounded-full;
+}
+
+#toc:hover::-webkit-scrollbar-thumb {
+  @apply bg-border-strong dark:bg-border-strong;
+}
+
+/* 标题样式 */
+.toc-title {
+  @apply text-text-primary dark:text-text-primary mb-1 transition-colors duration-200;
+  padding-left: 0.5rem;
+}
+
+.toc-title:hover {
+  @apply text-brand-primary dark:text-brand-primary-light;
+}
+
+/* 链接通用样式 */
+.toc-link {
+  @apply block px-2 py-1 transition-colors duration-200;
+  line-height: 1.4;
+  border-left: 2px solid transparent;
+}
+
+.toc-link:hover {
+  @apply bg-state-hover dark:bg-state-hover;
+}
+
+/* 不同级别标题的样式 */
+.toc-link-h1 {
+  @apply text-text-primary dark:text-text-primary;
+}
+
+.toc-link-h2 {
+  @apply text-text-primary dark:text-text-primary pl-[1.5em];
+}
+
+.toc-link-h3 {
+  @apply text-text-secondary dark:text-text-secondary pl-[2.5em];
+}
+
+.toc-link-h4 {
+  @apply text-text-tertiary dark:text-text-tertiary pl-[3.5em];
+}
+
+/* 活跃状态 - 使用左边框模拟指示器 */
+.toc-link-active {
+  @apply text-brand-primary dark:text-brand-primary-light bg-state-active dark:bg-state-active;
+  border-left-color: var(--brand-primary, #005b99);
+}
+
+/* 活跃链接的父级 */
+.toc-link-parent-active {
+  @apply text-text-primary dark:text-text-primary;
+}
+
+/* 滚动时过渡效果 */
+.toc-item {
+  @apply my-0.5;
+}
+
+/* 第一个项目（标题）的样式 */
+.toc-title-item {
+  @apply border-border dark:border-border mb-2 border-b pb-1;
+}
+
+/* 空目录样式 */
+.toc-empty {
+  @apply px-1 py-2 italic;
+}
+
+/* 移动端TOC指示器样式 */
+.mobile-toc-indicator {
+  @apply bg-surface-muted dark:bg-surface mb-4 rounded shadow-sm transition-all duration-300;
+  width: 100%;
+}
+
+/* TOC内容区域样式 */
+.toc-content-area {
+  @apply border-border bg-surface-muted dark:border-border dark:bg-surface overflow-hidden border-t;
+  transition: max-height 0.3s ease;
+}
+
+/* 显示/隐藏状态 */
+.toc-content-area.show {
+  max-height: calc(
+    100dvh - var(--header-height, 60px) - var(--indicator-height, 50px)
+  );
+  overflow-y: auto;
+  animation: toc-slide-down 0.3s ease-out;
+}
+
+.toc-content-area.hide {
+  max-height: 0;
+  border-top: none;
+}
+
+/* 展开状态的指示器 */
+.mobile-toc-indicator.toc-expanded {
+  @apply rounded-b;
+}
+
+@keyframes toc-slide-down {
+  from {
+    max-height: 0;
+    opacity: 0.8;
+  }
+  to {
+    max-height: calc(
+      100dvh - var(--header-height, 60px) - var(--indicator-height, 50px)
+    );
+    opacity: 1;
+  }
+}
+
+.mobile-toc-content {
+  @apply px-7;
+}
+
+#mobile-toc-indicator + * {
+  @apply !mt-0 !pt-0;
+}
