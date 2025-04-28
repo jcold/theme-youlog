@@ -55,3 +55,7 @@ dist-theme:
 preview:
 	@$(EKMP) web \
 		--work-dir dist
+
+pnpm-install:
+	pnpm install
+
