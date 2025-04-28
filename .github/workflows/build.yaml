@@ -50,7 +50,7 @@ jobs:
     
     - name: build pages
       run: |
-        make dist
+        cd __everkm && make dist
 
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
@@ -78,7 +78,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       run: |
         export EVERKM_VERSION=$(echo ${{ github.ref }} | sed -n 's/refs\/tags\/v\(.*\)/\1/p')
-        make dist-theme
+        cd __everkm && make dist-theme
       
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/v')
