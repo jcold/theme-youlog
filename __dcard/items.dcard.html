@@ -1,0 +1,8 @@
+{% set items = posts(dir=dir, recursive=recursive) %}
+<ul>
+    {% for doc in items %}
+    <li>
+        <a href="{{ doc.url_path | safe }}?path={{doc.path|urlencode_strict}}" target="_blank">{{doc.title}}</a>
+    </li>
+    {% endfor %}
+</ul>
