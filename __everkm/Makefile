@@ -52,9 +52,14 @@ dist-theme:
 	# 将 everkm_version 写入 everkm-theme.yaml
 	# 如果 EVERKM_VERSION 为空或未定义，则使用 0.0.0
 	@if [ -z "$${EVERKM_VERSION}" ]; then \
-		sed -i '' 's/version: .*/version: 0.0.0/' dist/everkm-theme.yaml; \
+		VERSION=0.0.0; \
 	else \
-		sed -i '' 's/version: .*/version: $${EVERKM_VERSION}/' dist/everkm-theme.yaml; \
+		VERSION=$${EVERKM_VERSION}; \
+	fi; \
+	if [ "$$(uname)" = "Darwin" ]; then \
+		sed -i '' "s/version: .*/version: $${VERSION}/" dist/everkm-theme.yaml; \
+	else \
+		sed -i "s/version: .*/version: $${VERSION}/" dist/everkm-theme.yaml; \
 	fi
 	mv dist youlog && zip -r youlog.zip youlog
 
