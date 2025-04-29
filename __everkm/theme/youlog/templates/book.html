@@ -2,21 +2,21 @@
 
 
 {% block page_title %}
-{%- set_global doc_path=__qs | get(key="path", default=__config.home) %}
+{%- set_global doc_path=__qs | get(key="path", default=__config | get(key="home", default="/HOME.md")) %}
 {%- set_global doc_meta = post_meta(path=doc_path) %}
 {{- doc_meta.title ~ " | " }}
 {%- endblock page_title %}
 
 
 {% block page_keywords %}
-{%- set_global doc_path=__qs | get(key="path", default=__config.home) %}
+{%- set_global doc_path=__qs | get(key="path", default=__config | get(key="home", default="/HOME.md")) %}
 {%- set_global doc_meta = post_meta(path=doc_path) %}
 {{- doc_meta | get(key="meta/keywords", default="") }}
 {%- endblock page_keywords %}
 
 
 {% block page_description %}
-{%- set_global doc_path=__qs | get(key="path", default=__config.home) %}
+{%- set_global doc_path=__qs | get(key="path", default=__config | get(key="home", default="/HOME.md")) %}
 {%- set_global doc_meta = post_meta(path=doc_path) %}
 {{- doc_meta | get(key="meta/description", default="") }}
 {%- endblock page_description %}
@@ -59,9 +59,10 @@
 
 
 {% block content %}
-{% set_global doc_path=__qs | get(key="path", default=__config.home) %}
+{% set_global doc_path=__qs | get(key="path", default=__config | get(key="home", default="/HOME.md")) %}
 {% set_global doc_meta = post_meta(path=doc_path) %}
 {% set doc = post_detail(path=doc_path) %}
+{% set summary_file = __qs | get(key="summary", default= base_url() ~ "/_SUMMARY.md") %}
 
 <div class="flex h-dvh">
     <!-- 导航侧边栏 - 独立滚动 -->
@@ -92,7 +93,7 @@
         <!-- 导航菜单内容 - 使用嵌套ul结构 -->
         <nav id="sidebar-nav-tree"
             class="flex-1 markdown-body !py-0 px-4 !bg-transparent nav-tree invisible overflow-y-auto">
-            {% set nav_doc = post_detail(path=__qs.summary) %}
+            {% set nav_doc = post_detail(path=summary_file) %}
             {{nav_doc.content_html | safe}}
         </nav>
     </aside>
@@ -158,7 +159,7 @@
                     <!-- 左侧：正文内容 -->
                     <div class="w-full lg:w-3/4 pr-0 lg:pl-4 lg:pr-8 leading-relaxed">
 
-                        {{ self::breadcrumb(navs=nav_path(from_file=__qs.summary, merge=__breadcrumbs)) }}
+                        {{ self::breadcrumb(navs=nav_path(from_file=summary_file, merge=__breadcrumbs)) }}
 
                         <h1 id="article-title" class="text-4xl font-bold text-gray-900 dark:text-white text-center mb-10">
                             {{ doc.title | default(value='无标题') }}
@@ -170,7 +171,7 @@
                         </article>
 
                         <!-- 底部导航 -->
-                        {% set page = nav_indicator(from_file=__qs.summary) %}
+                        {% set page = nav_indicator(from_file=summary_file) %}
                         <div id="page-indicator">
                             {% if page.next or page.prev %}
                             <div
