@@ -86,6 +86,7 @@ jobs:
       run: |
         export EVERKM_VERSION=$(echo ${{ github.ref }} | sed -n 's/refs\/tags\/v\(.*\)/\1/p')
         cd __everkm && make dist-theme
+        
       
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/v')
