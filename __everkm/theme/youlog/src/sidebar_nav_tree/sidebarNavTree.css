@@ -17,7 +17,12 @@
     @apply bg-border-strong dark:bg-border;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply text-lg font-medium;
   }
 
@@ -33,7 +38,7 @@
     margin: 2px 0;
   }
 
-  li > p {
+  li p {
     margin: 0;
     padding: 0;
   }
@@ -61,6 +66,10 @@
     &:has(a) {
       cursor: pointer;
     }
+
+    & > p {
+      @apply flex-1;
+    }
   }
 
   li[data-depth] > .node-content {
@@ -86,7 +95,7 @@
   }
 
   .tree-node-branch > .with-toggle::before {
-    content: '▶';
+    content: "▶";
     position: absolute;
     left: calc((var(--depth, 0) * 20px) + 1em);
     width: 16px;
@@ -103,7 +112,7 @@
   }
 
   .tree-node-leaf > .with-toggle::before {
-    content: '';
+    content: "";
     position: absolute;
     left: calc((var(--depth, 0) * 20px) + 1em);
     width: 16px;
