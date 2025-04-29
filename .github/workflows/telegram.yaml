@@ -24,6 +24,7 @@ jobs:
           message: |
             ---
             Action: https://github.com/${{ github.repository }}/actions 
+            Release: https://github.com/${{ github.repository }}/releases 
             Result: ✅ success
             Workflow: ${{ github.event.workflow_run.name }}
             Commit: ${{ github.event.workflow_run.head_commit.message }}
