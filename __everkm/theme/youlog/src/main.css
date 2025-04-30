@@ -1,4 +1,4 @@
-@import './color.css';
+@import "./color.css";
 
 @tailwind base;
 @tailwind components;
@@ -23,4 +23,9 @@
   font-family: var(--reader-font-family, system-ui);
   font-size: var(--reader-font-size, 16px);
   line-height: var(--reader-line-height, 1.7);
+}
+
+/* 左右两栏同时显示时，隐藏重复的站点名称 */
+.hidden-repeat-site-name {
+  display: none !important;
 }

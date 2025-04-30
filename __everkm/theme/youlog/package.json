@@ -36,6 +36,7 @@
   "dependencies": {
     "@algolia/client-search": "^5.23.4",
     "@floating-ui/dom": "^1.6.3",
+    "@solid-primitives/media": "^2.3.1",
     "algoliasearch": "^5.23.4",
     "ky": "^1.8.1",
     "mark.js": "^8.11.1",

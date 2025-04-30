@@ -59,8 +59,8 @@
 
 
 {% block content %}
-{% set_global doc_path=__qs | get(key="path", default=__config | get(key="home", default="/HOME.md")) %}
-{% set_global doc_meta = post_meta(path=doc_path) %}
+{% set doc_path=__qs.path %}
+{% set doc_meta = post_meta(path=doc_path) %}
 {% set doc = post_detail(path=doc_path) %}
 {% set summary_file = __qs | get(key="summary", default= base_url() ~ "/_SUMMARY.md") %}
 
@@ -71,7 +71,7 @@
                 transform transition-transform duration-300 lg:translate-x-0 -translate-x-full
                 flex flex-col">
         <div class="flex h-14 items-center justify-between px-2 md:px-4 bg-gray-50 dark:bg-gray-900 z-10">
-            <a href="{{base_url()}}/" class="flex items-center">
+            <a data-logo href="{{base_url()}}/" class="flex items-center">
                 {% if __config.site.logo %}
                     <img src="{{ base_url(url=__config.site.logo) }}" alt="{{ __config.site.name }}" class="h-7 w-auto">
                     {% if not __config.layout.only_display_logo %}
@@ -113,7 +113,7 @@
                         </svg>
                     </button>
                     <div class="flex-1 min-w-0">
-                        <h1 data-app-name class="text-lg font-semibold text-gray-900 dark:text-white truncate">
+                        <h1 data-app-name class="text-lg font-semibold text-gray-900 dark:text-white truncate hidden-repeat-site-name">
                             {{ __config.site.name }}
                         </h1>
                         <h1 data-article-title class="text-lg font-semibold text-gray-900 dark:text-white truncate cursor-pointer hidden">
