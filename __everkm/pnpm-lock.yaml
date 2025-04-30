@@ -11,9 +11,10 @@ importers:
       ekmp-algolia:
         specifier: ^0.1.1
         version: 0.1.1
+    devDependencies:
       everkm-publish:
-        specifier: ^0.13.5
-        version: 0.13.5
+        specifier: ^0.13.6
+        version: 0.13.6
 
 packages:
 
@@ -93,8 +94,8 @@ packages:
   end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
 
-  everkm-publish@0.13.5:
-    resolution: {integrity: sha512-tA8hT03q5KS1gDbBDMr+u6xRZDpzauJAlvO47rCZqC4pFfQsXwU8aV6u/RkIghW6c+oR5d5VRUGDywtKyLBVIA==}
+  everkm-publish@0.13.6:
+    resolution: {integrity: sha512-wk0fcALhHjQXkHOLBFzxw0/3rbpESgoiM+zibUsD8ik/TRj1sBn0vpV61hy4dp5SpYDHADFpFIuvvs/7fwX/zA==}
     engines: {node: '>=12'}
     hasBin: true
 
@@ -376,7 +377,7 @@ snapshots:
     dependencies:
       once: 1.4.0
 
-  everkm-publish@0.13.5:
+  everkm-publish@0.13.6:
     dependencies:
       adm-zip: 0.5.16
       decompress: 4.2.1

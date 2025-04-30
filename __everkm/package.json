@@ -11,13 +11,15 @@
   "license": "ISC",
   "packageManager": "pnpm@10.5.2",
   "dependencies": {
-    "ekmp-algolia": "^0.1.1",
-    "everkm-publish": "^0.13.5"
+    "ekmp-algolia": "^0.1.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
       "ekmp-algolia",
       "everkm-publish"
     ]
+  },
+  "devDependencies": {
+    "everkm-publish": "^0.13.6"
   }
 }

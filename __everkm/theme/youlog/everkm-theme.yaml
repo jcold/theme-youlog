@@ -10,6 +10,12 @@ demo: https://youlog.theme.everkm.com/
     
 sitemap:
   children:
-    - path: "*"
+    - path: "index.html"
       qs:
         __tpl: book.html
+        summary: /_SUMMARY.md
+        path: /HOME.md
+    - path: "**"
+      qs:
+        __tpl: book.html
+        summary: /_SUMMARY.md
