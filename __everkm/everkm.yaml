@@ -26,9 +26,7 @@ config:
   # 备案信息
   # beian:
   #   - text: 苏ICP备2025000000号-1
-  #     link: /
-  #   - text: 苏公网安备2025000000号
-  #     link: /
+  #     link: https://beian.miit.gov.cn/
 
   algolia_search:
     app_id: 1N74YC70XF

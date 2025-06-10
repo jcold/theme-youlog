@@ -4,7 +4,7 @@ fe-install:
 	cd . && pnpm i
 
 fe-build:
-	cd . && pnpm run build
+	cd . && NODE_ENV=production pnpm run build
 	ls -Rlh ../../dist
 
 fe-dev:
