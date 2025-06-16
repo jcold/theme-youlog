@@ -44,7 +44,7 @@ dist:
 	$(MAKE) export-all
 
 dist-theme:
-	cd theme/youlog && $(MAKE) bundle-theme
+	cd theme/youlog && $(MAKE) bundle
 
 
 preview:

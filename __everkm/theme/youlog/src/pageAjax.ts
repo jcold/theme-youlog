@@ -113,7 +113,11 @@ async function handleNavigation(url: string): Promise<void> {
 
       // 触发自定义事件，通知页面内容已更新
       document.dispatchEvent(
-        new CustomEvent(EVENT_PAGE_LOADED, { detail: { url } })
+        new CustomEvent(EVENT_PAGE_LOADED, {
+          detail: { url },
+          bubbles: true,
+          composed: true,
+        })
       );
       console.log("触发页面加载完成事件:", EVENT_PAGE_LOADED, { url });
     } else {

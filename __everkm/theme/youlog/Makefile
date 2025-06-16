@@ -14,7 +14,7 @@ fe-clean:
 fe-dev:
 	cd . && pnpm run dev
 
-bundle-theme:
+bundle:
 	@if [ -d "$(DIST_DIR)" ]; then \
 		rm -rf $(DIST_DIR); \
 	fi
