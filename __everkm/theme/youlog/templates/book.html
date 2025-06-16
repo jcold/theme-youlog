@@ -170,6 +170,10 @@
                             {{ doc.content_html | safe }}
                         </article>
 
+                        {% if __config.yousha %}
+                            <yousha-comment community="{{ __config.yousha.community }}"></yousha-comment>
+                        {% endif %}
+
                         <!-- 底部导航 -->
                         {% set page = nav_indicator(from_file=summary_file) %}
                         <div id="page-indicator">
@@ -270,7 +274,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                                     </svg>
                                     <a href="https://youlog.theme.everkm.com" target="_blank" title="Powered by everkm-publish with theme youlog" class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">
-                                        youlog-theme
+                                        youlog
                                     </a>
                                 </span>
                             </div>
@@ -286,6 +290,10 @@
         </div>
     </div>
 </div>
+
+{% if __config.yousha %}
+    <script src="https://share.yousha.top/embed/yousha-comment.js" type="module"></script>
+{% endif %}
 
 {% endblock %}
 

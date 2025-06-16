@@ -22,6 +22,10 @@ config:
     # from_year: 2021
     text: everkm
     link: https://everkm.cn
+
+  # 评论
+  yousha:
+    community: youlog-theme
   
   # 备案信息
   # beian:
