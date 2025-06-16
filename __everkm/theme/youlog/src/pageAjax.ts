@@ -41,7 +41,7 @@ async function loadPageContent(url: string): Promise<boolean> {
       } else if (currentElement) {
         currentElement.innerHTML = "";
       } else {
-        console.error("syncElement", selector, "not found");
+        console.error("sync element from ajax response", selector, "not found");
         return false;
       }
       return true;
@@ -50,11 +50,12 @@ async function loadPageContent(url: string): Promise<boolean> {
     [
       "#article-main",
       "h1[data-article-title]",
-      "header title",
+      "title",
       "#page-indicator",
       "#breadcrumb",
       "#article-title",
     ].forEach((selector) => {
+      // console.log("syncElement 2", selector);
       syncElement(selector);
     });
 

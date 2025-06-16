@@ -55,7 +55,7 @@ const manifestPlugin = {
                 return entryName
               }
             } else {
-              if (filename.startsWith(entryName + '-')) {
+              if (filename.startsWith(entryName + '.')) {
                 return entryName
               }
             }
@@ -268,7 +268,7 @@ async function build() {
   } else {
     // 生产模式：一次性构建
     const result = await esbuild.build(buildOptions)
-    analyzeBundle(result.metafile)
+    // analyzeBundle(result.metafile)
     console.log('Build completed successfully!')
     process.exit(0)
   }
