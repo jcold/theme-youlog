@@ -36,8 +36,8 @@
 {% endmacro render_nav_items %}
 
 {% macro breadcrumb(navs) %}
+<div id="breadcrumb" class="text-text-tertiary dark:text-text-tertiary text-[0.95em] mx-auto mb-6 flex items-center flex-wrap">
     {% if navs %}
-    <div id="breadcrumb" class="text-text-tertiary dark:text-text-tertiary text-[0.95em] mx-auto mb-6 flex items-center flex-wrap">
         <a href="{{base_url()}}/" class="text-text-primary dark:text-text-primary hover:text-brand-primary dark:hover:text-brand-primary-light transition-colors inline-flex items-center">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -53,8 +53,8 @@
             {{nav.caption}}
             {% if nav.url %}</a>{% endif %}
         {% endfor %}
-    </div>
     {% endif %}
+</div>
 {% endmacro breadcrumb %}
 
 
