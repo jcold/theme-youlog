@@ -85,7 +85,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       run: |
         export EVERKM_VERSION=$(echo ${{ github.ref }} | sed -n 's/refs\/tags\/v\(.*\)/\1/p')
-        cd __everkm && make dist-theme
+        cd __everkm/theme/youlog && make bundle
         
       
     - name: Create Release
@@ -97,7 +97,7 @@ jobs:
         draft: false
         prerelease: true
         files: |
-          __everkm/youlog.zip
+          __everkm/theme/youlog/youlog.zip
 
 
   # notify:

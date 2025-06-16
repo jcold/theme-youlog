@@ -43,9 +43,6 @@ dist:
 	cd theme/youlog && $(MAKE) fe-build
 	$(MAKE) export-all
 
-dist-theme:
-	cd theme/youlog && $(MAKE) bundle
-
 
 preview:
 	@$(EKMP) web \
