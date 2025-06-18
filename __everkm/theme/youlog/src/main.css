@@ -16,6 +16,10 @@
     overflow-wrap: break-word;
     word-break: break-word;
   }
+
+  a {
+    @apply underline-offset-4;
+  }
 }
 
 /* 自定义阅读样式 */
