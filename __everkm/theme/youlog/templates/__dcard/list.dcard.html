@@ -51,7 +51,7 @@
     currentPage: {{ page_no }},
     totalPages: {{ page_count }},
     baseUrl: '{{ __page_path_base }}',
-    pageQuery: '{{ page_query(page=1) }}',
+    pageQuery: '{% if __env_is_preview %}{{ page_query(page=1) }}{% endif %}',
     goToPage() {
       if (this.currentPage >= 1 && this.currentPage <= this.totalPages) {
         let url;
@@ -60,7 +60,7 @@
         } else {
           url = this.baseUrl + '.p' + this.currentPage + '.html?' + this.pageQuery.replace('page=1', 'page=' + this.currentPage);
         }
-        window.location.href = url;
+        window.dispatchEvent(new CustomEvent('page-navigate', { detail: { url } }));
       }
     }
   }" x-init="currentPage = {{ page_no }}">

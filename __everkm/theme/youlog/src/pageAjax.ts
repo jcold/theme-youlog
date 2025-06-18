@@ -2,6 +2,7 @@ import ky from "ky";
 import "./nprogress_custom.css";
 import nProgress from "nprogress";
 
+export const EVENT_PAGE_NAVIGATE = "page-navigate";
 export const EVENT_PAGE_LOADED = "page-loaded";
 export const EVENT_PAGE_LOAD_BEFORE = "page-load-before";
 export const PAGE_LOADING_CLASS = "page-loading";
@@ -242,6 +243,12 @@ export function setupAjaxPageLoading() {
   window.addEventListener("popstate", () => {
     console.log("popstate event triggered");
     handlePopState();
+  });
+
+  window.addEventListener(EVENT_PAGE_NAVIGATE, (event: Event) => {
+    const customEvent = event as CustomEvent<{ url: string }>;
+    console.log("pushstate event triggered", customEvent.detail.url);
+    handleNavigation(customEvent.detail.url);
   });
 }
 
