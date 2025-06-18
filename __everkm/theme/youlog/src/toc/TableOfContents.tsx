@@ -160,6 +160,8 @@ export function MobileToc(props: MobileTocProps) {
       if (articleElement) {
         const items = parseTocItems(articleElement, props.headingSelector || 'h1, h2, h3, h4');
         setTocItems(items);
+      } else {
+        setTocItems([]);
       }
       // 启用滚动同步
       setStopSync(false);
