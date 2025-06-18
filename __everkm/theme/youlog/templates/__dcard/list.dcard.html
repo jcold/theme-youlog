@@ -1,6 +1,6 @@
 {% set items = posts(dir=dir, recursive=recursive) %}
 {% set page_no =__qs.page | default(value=1) | int %}
-{% set page_size =__qs.page_size | default(value=5) | int %}
+{% set page_size = page_size | default(value=5) %}
 {% set start = (page_no - 1) * page_size %}
 {% set end = start + page_size %}
 {% set page_count = items | length / page_size %}
