@@ -29,3 +29,8 @@
 .hidden-repeat-site-name {
   display: none !important;
 }
+
+.mark-top {
+  content: " ";
+  @apply icon-[material-symbols--vertical-align-top-rounded] inline-block h-[0.7em] w-[0.7em];
+}

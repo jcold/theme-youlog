@@ -1,5 +1,5 @@
 # 需要与 build.js 中的输出目录一致
-DIST_DIR=../../dist
+DIST_DIR=./dist
 
 fe-install:
 	cd . && pnpm i
@@ -53,8 +53,9 @@ analyze:
 	esbuild-visualizer --metadata bundle-analysis.json --filename bundle-stats.html
 	open bundle-stats.html
 
-INSTALL_DIR=/Users/dayu/Coder/everkm/tehaochi.cn/packages/thc-www/__everkm/theme/youlog
+# INSTALL_DIR=/Users/dayu/Coder/everkm/tehaochi.cn/packages/thc-www/__everkm/theme/youlog
+INSTALL_DIR=/Users/dayu/Coder/dayu_me3/__everkm/theme/youlog
 debug-install:
-	rsync -av --delete ../../dist/assets/ $(INSTALL_DIR)/assets/
+	rsync -av --delete $(DIST_DIR)/assets/ $(INSTALL_DIR)/assets/
 	rsync -av --delete templates/ $(INSTALL_DIR)/templates/
 	cp assets-manifest.json $(INSTALL_DIR)

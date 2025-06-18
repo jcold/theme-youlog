@@ -1,0 +1,47 @@
+{% set items = posts(dir=dir, recursive=recursive) %}
+{% set page_no =__qs.page | default(value=1) | int %}
+{% set page_size =__qs.page_size | default(value=5) | int %}
+{% set start = (page_no - 1) * page_size %}
+{% set end = start + page_size %}
+{% set page_count = items | length / page_size %}
+{% set page_count = page_count | round(method="ceil") %}
+<ol>
+    {% for doc in items | slice(start=start, end=end) %}
+    <li>
+        <a href="{{ doc.url_path | safe }}?path={{doc.path|urlencode_strict}}" target="_blank">{{doc.title}}</a>
+        {%if doc.weight > 0%}<span class="!text-red-500 mark-top"></span>{%endif%}
+        <div class="text-[#2f353e] font-light text-[90%] number">
+            {{doc.update_at | date(format=config(key="date_format", default="%Y-%m-%d %H:%M"))}}
+            {% if doc.date != doc.update_at %}<em class="text-gray-500 text-[90%]">{{t(text="updated")}}</em>{% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ol>
+
+{% if  page_count > 1 %}
+<div class="space-x-6 flex !mt-10 text-normal items-center justify-center">
+  {% if page_no > 1 %}
+  <div class="flex items-center space-x-1">
+      {% if page_no == 2 %}
+      <a href="{{__page_path_base}}.html?{{page_query(page=1)}}" class="flex items-center gap-0.5">
+        {{t(text="common: Prev page")}}
+      </a>
+      {% elif page_no > 2 %}
+      <a href="{{__page_path_base}}.p{{page_no-1}}.html?{{page_query(page=page_no-1)}}" class="flex items-center gap-0.5">
+        {{t(text="common: Prev page")}}
+      </a>
+      {% endif %}
+  </div>
+  {% endif %}
+
+  <div class="text-gray-600">{{page_no}} / {{page_count}}</div>
+      
+  {% if items | length > end %}
+  <div class="flex items-center space-x-1">
+      <a href="{{__page_path_base}}.p{{page_no+1}}.html?{{page_query(page=page_no+1)}}" class="flex items-center gap-0.5">
+        {{t(text="common: Next page")}}
+      </a>
+  </div>
+  {% endif %}
+</div>
+{% endif %}

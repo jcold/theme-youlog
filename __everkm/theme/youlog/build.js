@@ -14,7 +14,7 @@ let basePrefix = trimSlash(
   process.env.BASE_PREFIX ? `${process.env.BASE_PREFIX}` : '',
 )
 // 构建输出目录
-const distBaseDir = trimSlash(`../../dist/${basePrefix}`)
+const distBaseDir = trimSlash(`./dist/${basePrefix}`)
 const distDir = `${distBaseDir}/assets`
 console.log(
   `Building with esbuild in ${isDev ? 'watch' : 'production'} mode, distDir: ${distDir}`,
