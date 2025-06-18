@@ -86,6 +86,17 @@ function isOnlyHashChange(oldUrl: string, newUrl: string): boolean {
   return stripHash(oldUrl) === stripHash(newUrl);
 }
 
+function dispatchPageLoaded(url: string) {
+  document.dispatchEvent(
+    new CustomEvent(EVENT_PAGE_LOADED, {
+      detail: { url },
+      bubbles: true,
+      composed: true,
+    })
+  );
+  console.log("触发页面加载完成事件:", EVENT_PAGE_LOADED, { url });
+}
+
 // 处理页面导航跳转的函数
 async function handleNavigation(url: string): Promise<void> {
   console.log("handleNavigation", url);
@@ -113,14 +124,7 @@ async function handleNavigation(url: string): Promise<void> {
       window.history.pushState(null, document.title, url);
 
       // 触发自定义事件，通知页面内容已更新
-      document.dispatchEvent(
-        new CustomEvent(EVENT_PAGE_LOADED, {
-          detail: { url },
-          bubbles: true,
-          composed: true,
-        })
-      );
-      console.log("触发页面加载完成事件:", EVENT_PAGE_LOADED, { url });
+      dispatchPageLoaded(url);
     } else {
       // 加载失败时直接跳转
       window.location.href = url;
@@ -153,6 +157,9 @@ async function handlePopState(): Promise<void> {
     // 不是锚点变化，需要加载页面内容
     const success = await loadPageContent(currentUrl);
     if (success) {
+      // 触发自定义事件，通知页面内容已更新
+      dispatchPageLoaded(currentUrl);
+
       // 更新 lastFullUrl
       lastFullUrl = currentUrl;
     } else {
