@@ -262,6 +262,7 @@ class NavTreeManager {
           }
         }
         e.stopPropagation();
+        e.stopImmediatePropagation();
       }
     });
   }
@@ -270,6 +271,8 @@ class NavTreeManager {
     navTree.addEventListener("click", (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       handleTreeLeafClick(target);
+      e.stopPropagation();
+      e.stopImmediatePropagation();
     });
   }
 
