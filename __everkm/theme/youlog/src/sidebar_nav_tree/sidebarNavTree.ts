@@ -137,6 +137,7 @@ function findTreeNodeLeaf(el: HTMLElement): HTMLElement | null {
 
 function handleTreeLeafClick(el: HTMLElement): void {
   const leaf = findTreeNodeLeaf(el);
+  // console.log("handleTreeLeafClick", el, leaf);
   if (leaf) {
     const link = leaf.querySelector("a");
     if (link) {
@@ -205,9 +206,6 @@ class NavTreeManager {
     // 添加事件代理，处理所有节点的点击事件
     this.setupTreeClickHandlers(navTree);
 
-    // 设置叶子节点点击处理程序
-    this.setupTreeLeafClickHandlers(navTree);
-
     // 设置所有节点的深度
     setNodeDepth(navTree);
     remoteLeafToggle(navTree);
@@ -220,13 +218,13 @@ class NavTreeManager {
   private setupEventListeners(): void {
     // 监听页面加载事件，更新导航高亮
     document.addEventListener(EVENT_PAGE_LOADED, (event: Event) => {
-      console.log("接收到页面加载事件:", EVENT_PAGE_LOADED, event);
+      // console.log("接收到页面加载事件:", EVENT_PAGE_LOADED, event);
       this.updateNavHighlight();
     });
 
     // 监听浏览器历史变化 - 这对于处理后退按钮也很重要
     window.addEventListener("popstate", () => {
-      console.log("浏览器历史变化 (popstate)");
+      // console.log("浏览器历史变化 (popstate)");
       this.updateNavHighlight();
     });
   }
@@ -261,18 +259,11 @@ class NavTreeManager {
             subList.classList.toggle("hidden");
           }
         }
-        e.stopPropagation();
-        e.stopImmediatePropagation();
       }
-    });
-  }
 
-  private setupTreeLeafClickHandlers(navTree: HTMLElement): void {
-    navTree.addEventListener("click", (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      handleTreeLeafClick(target);
-      e.stopPropagation();
-      e.stopImmediatePropagation();
+      if (target.tagName !== "A") {
+        handleTreeLeafClick(target);
+      }
     });
   }
 
@@ -413,7 +404,7 @@ class NavTreeManager {
 
   // 清除当前高亮并更新为新页面的高亮
   private updateNavHighlight(): void {
-    console.log("更新导航高亮，当前路径:", window.location.pathname);
+    // console.log("更新导航高亮，当前路径:", window.location.pathname);
 
     // 如果导航树为空，重新初始化
     if (this.navTrees.length === 0) {

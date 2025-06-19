@@ -226,7 +226,7 @@ export function setupAjaxPageLoading() {
       ) as HTMLAnchorElement | undefined;
 
       if (!linkElement) {
-        console.log("事件路径中没有A元素");
+        // console.log("事件路径中没有A元素");
         return;
       }
 

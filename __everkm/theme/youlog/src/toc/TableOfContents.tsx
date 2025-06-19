@@ -1,48 +1,55 @@
-import { Emitter } from 'mitt';
-import { createSignal, createEffect, onCleanup, For, Show, onMount } from 'solid-js';
-import { render } from 'solid-js/web';
+import { Emitter } from "mitt";
+import {
+  createSignal,
+  createEffect,
+  onCleanup,
+  For,
+  Show,
+  onMount,
+} from "solid-js";
+import { render } from "solid-js/web";
 
 // 垂直高度的间距
-export const VERTICAL_PADDING = 20
+export const VERTICAL_PADDING = 20;
 
 // 定义TOC事件类型
 export type TocEvents = {
-  stop?: string,       // 停止更新
-  update?: string    // 重新解析TOC
+  stop?: string; // 停止更新
+  update?: string; // 重新解析TOC
 };
 
 /**
  * 目录项接口
  */
 export interface TocItem {
-  id: string
-  text: string
-  level: number
-  parentId?: string
+  id: string;
+  text: string;
+  level: number;
+  parentId?: string;
 }
 
 /**
  * TableOfContents组件属性
  */
 interface TocProps {
-  tocContainer?: HTMLElement
-  articleSelector?: string
-  headingSelector?: string
-  headerHeight?: number
-  offset?: number // 滚动偏移量
-  highlightParents?: boolean
-  title?: string // 目录标题
-  callbackHeadersHeight?: () => number[] // 回调获取所有header高度
-  onAfterGoto?: (id: string) => void // 回调在滚动到指定标题后执行
-  emitter?: Emitter<TocEvents> // mitt事件发射器
-  scrollContainer?: HTMLElement // 滚动容器
+  tocContainer?: HTMLElement;
+  articleSelector?: string;
+  headingSelector?: string;
+  headerHeight?: number;
+  offset?: number; // 滚动偏移量
+  highlightParents?: boolean;
+  title?: string; // 目录标题
+  callbackHeadersHeight?: () => number[]; // 回调获取所有header高度
+  onAfterGoto?: (id: string) => void; // 回调在滚动到指定标题后执行
+  emitter?: Emitter<TocEvents>; // mitt事件发射器
+  scrollContainer?: HTMLElement; // 滚动容器
 }
 
 /**
  * MobileTocProps接口
  */
 interface MobileTocProps extends TocProps {
-  isMobile?: boolean
+  isMobile?: boolean;
 }
 
 /**
@@ -50,66 +57,66 @@ interface MobileTocProps extends TocProps {
  */
 function parseTocItems(
   articleElement: HTMLElement | null,
-  headingSelector: string,
+  headingSelector: string
 ): TocItem[] {
-  if (!articleElement) return []
+  if (!articleElement) return [];
 
   const headings =
-    articleElement.querySelectorAll<HTMLHeadingElement>(headingSelector)
-  const tocItems: TocItem[] = []
+    articleElement.querySelectorAll<HTMLHeadingElement>(headingSelector);
+  const tocItems: TocItem[] = [];
 
   // 记录标题层级关系
-  let previousLevel = 0
-  const levelStack: {id: string; level: number}[] = []
+  let previousLevel = 0;
+  const levelStack: { id: string; level: number }[] = [];
 
   headings.forEach((heading) => {
     // 确保每个标题都有id
     if (!heading.id) {
       heading.id =
-        heading.textContent?.trim().toLowerCase().replace(/\s+/g, '-') || ''
+        heading.textContent?.trim().toLowerCase().replace(/\s+/g, "-") || "";
     }
 
     // 获取标题级别（h1=1, h2=2 等）
-    const level = parseInt(heading.tagName.substring(1))
+    const level = parseInt(heading.tagName.substring(1));
 
     // 处理层级栈
     if (level > previousLevel) {
       if (levelStack.length > 0) {
-        levelStack.push({id: heading.id, level})
+        levelStack.push({ id: heading.id, level });
       } else {
-        levelStack.push({id: heading.id, level})
+        levelStack.push({ id: heading.id, level });
       }
     } else if (level < previousLevel) {
       while (
         levelStack.length > 0 &&
         levelStack[levelStack.length - 1].level >= level
       ) {
-        levelStack.pop()
+        levelStack.pop();
       }
-      levelStack.push({id: heading.id, level})
+      levelStack.push({ id: heading.id, level });
     } else {
       // 同级别替换
-      levelStack.pop()
-      levelStack.push({id: heading.id, level})
+      levelStack.pop();
+      levelStack.push({ id: heading.id, level });
     }
-    previousLevel = level
+    previousLevel = level;
 
     // 创建TOC项
     const item: TocItem = {
       id: heading.id,
-      text: heading.textContent || '',
+      text: heading.textContent || "",
       level,
-    }
+    };
 
     // 添加父级引用
     if (levelStack.length > 1) {
-      item.parentId = levelStack[levelStack.length - 2].id
+      item.parentId = levelStack[levelStack.length - 2].id;
     }
 
-    tocItems.push(item)
-  })
+    tocItems.push(item);
+  });
 
-  return tocItems
+  return tocItems;
 }
 
 /**
@@ -117,9 +124,11 @@ function parseTocItems(
  */
 export function MobileToc(props: MobileTocProps) {
   const [tocItems, setTocItems] = createSignal<TocItem[]>([]);
-  const [activeId, setActiveId] = createSignal<string>('');
+  const [activeId, setActiveId] = createSignal<string>("");
   const [showToc, setShowToc] = createSignal<boolean>(false);
   const [stopSync, setStopSync] = createSignal<boolean>(false);
+
+  let cleanUpCallback: () => void;
 
   // refs
   let mobileTocRef: HTMLDivElement | undefined;
@@ -127,14 +136,21 @@ export function MobileToc(props: MobileTocProps) {
   let isScrollingToHeading = false;
 
   // computed values
-  const activeTocItem = () => tocItems().find(item => item.id === activeId());
+  const activeTocItem = () => tocItems().find((item) => item.id === activeId());
+
+  // console.log("MobileToc", props.articleSelector, props.headingSelector);
 
   // 初始化TOC数据
   onMount(() => {
-    const articleElement = document.querySelector<HTMLElement>(props.articleSelector || '#article-main');
+    const articleElement = document.querySelector<HTMLElement>(
+      props.articleSelector || "#article-main"
+    );
     if (!articleElement) return;
 
-    const items = parseTocItems(articleElement, props.headingSelector || 'h1, h2, h3, h4');
+    const items = parseTocItems(
+      articleElement,
+      props.headingSelector || "h1, h2, h3, h4"
+    );
     setTocItems(items);
 
     // 初始化时设置当前活跃项
@@ -148,17 +164,22 @@ export function MobileToc(props: MobileTocProps) {
 
     // 监听停止更新事件 - 仅停止滚动状态同步，通常在页面加载前触发
     const onStop = () => {
-      console.log('TOC: 停止滚动同步');
+      // console.log("TOC: 停止滚动同步 mobile");
       setStopSync(true);
     };
 
     // 监听更新事件 - 页面加载后触发，重新解析内容并恢复滚动同步
     const onUpdate = () => {
-      console.log('TOC: 更新内容并恢复滚动同步');
+      // console.log("TOC: 更新内容并恢复滚动同步 mobile");
       // 重新解析文章内容
-      const articleElement = document.querySelector<HTMLElement>(props.articleSelector || '#article-main');
+      const articleElement = document.querySelector<HTMLElement>(
+        props.articleSelector || "#article-main"
+      );
       if (articleElement) {
-        const items = parseTocItems(articleElement, props.headingSelector || 'h1, h2, h3, h4');
+        const items = parseTocItems(
+          articleElement,
+          props.headingSelector || "h1, h2, h3, h4"
+        );
         setTocItems(items);
       } else {
         setTocItems([]);
@@ -167,20 +188,25 @@ export function MobileToc(props: MobileTocProps) {
       setStopSync(false);
     };
 
-    emitter.on('stop', onStop);
-    emitter.on('update', onUpdate);
+    emitter.on("stop", onStop);
+    emitter.on("update", onUpdate);
 
-    onCleanup(() => {
-      emitter.off('stop', onStop);
-      emitter.off('update', onUpdate);
-    });
+    cleanUpCallback = () => {
+      emitter.off("stop", onStop);
+      emitter.off("update", onUpdate);
+    };
+  });
+
+  onCleanup(() => {
+    // console.log("MobileToc onCleanup");
+    cleanUpCallback?.();
   });
 
   const getHeaderHeight = () => {
     return parseInt(
       getComputedStyle(document.documentElement)
-        .getPropertyValue('--header-height')
-        .trim() || '0',
+        .getPropertyValue("--header-height")
+        .trim() || "0"
     );
   };
 
@@ -239,7 +265,7 @@ export function MobileToc(props: MobileTocProps) {
     const handleScroll = () => {
       // 如果设置了停止同步，则不处理滚动事件
       if (stopSync()) return;
-      
+
       if (!ticking) {
         window.requestAnimationFrame(() => {
           updateActiveItem();
@@ -250,9 +276,9 @@ export function MobileToc(props: MobileTocProps) {
     };
 
     // 使用指定的滚动容器或窗口
-    scrollEl.addEventListener('scroll', handleScroll, {passive: true});
-    
-    onCleanup(() => scrollEl.removeEventListener('scroll', handleScroll));
+    scrollEl.addEventListener("scroll", handleScroll, { passive: true });
+
+    onCleanup(() => scrollEl.removeEventListener("scroll", handleScroll));
   });
 
   // 当TOC展开时滚动到当前活跃项
@@ -260,11 +286,11 @@ export function MobileToc(props: MobileTocProps) {
     if (showToc() && tocContentRef && activeId()) {
       setTimeout(() => {
         const activeItem = tocContentRef.querySelector(
-          `[data-target="${activeId()}"]`,
+          `[data-target="${activeId()}"]`
         );
         if (activeItem) {
           // 滚动到活跃项
-          activeItem.scrollIntoView({behavior: 'smooth', block: 'center'});
+          activeItem.scrollIntoView({ behavior: "smooth", block: "center" });
         }
       }, 300); // 等待动画完成
     }
@@ -289,7 +315,9 @@ export function MobileToc(props: MobileTocProps) {
     <Show when={tocItems().length > 0}>
       <div
         ref={mobileTocRef}
-        class={`mobile-toc-indicator relative overflow-y-auto rounded border border-gray-200 lg:hidden dark:border-gray-700 ${showToc() ? 'toc-expanded' : ''}`}
+        class={`mobile-toc-indicator relative overflow-y-auto rounded border border-gray-200 lg:hidden dark:border-gray-700 ${
+          showToc() ? "toc-expanded" : ""
+        }`}
       >
         {/* 指示器/标题部分 */}
         <div
@@ -315,10 +343,12 @@ export function MobileToc(props: MobileTocProps) {
             </span>
           </div>
           <div class="text-brand-primary dark:text-brand-primary-light mx-2 flex-1 truncate font-medium">
-            {activeTocItem()?.text || props.title || '目录'}
+            {activeTocItem()?.text || props.title || "目录"}
           </div>
           <svg
-            class={`h-5 w-5 transform text-text-tertiary transition-transform dark:text-text-tertiary ${showToc() ? 'rotate-180' : ''}`}
+            class={`h-5 w-5 transform text-text-tertiary transition-transform dark:text-text-tertiary ${
+              showToc() ? "rotate-180" : ""
+            }`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -359,8 +389,8 @@ export function MobileToc(props: MobileTocProps) {
  */
 export function TableOfContents(props: TocProps) {
   const [tocItems, setTocItems] = createSignal<TocItem[]>([]);
-  const [activeId, setActiveId] = createSignal<string>('');
-  const [containerHeight, setContainerHeight] = createSignal<string>('auto');
+  const [activeId, setActiveId] = createSignal<string>("");
+  const [containerHeight, setContainerHeight] = createSignal<string>("auto");
   const [stopSync, setStopSync] = createSignal<boolean>(false);
 
   // 是否由TOC内部操作引起的滚动
@@ -368,19 +398,27 @@ export function TableOfContents(props: TocProps) {
   let tocContainerRef: HTMLElement | undefined;
 
   onMount(() => {
-    tocContainerRef = props.tocContainer || document.querySelector<HTMLElement>('#toc') || undefined;
+    tocContainerRef =
+      props.tocContainer ||
+      document.querySelector<HTMLElement>("#toc") ||
+      undefined;
     if (!tocContainerRef) {
-      console.warn('tocContainer is not found');
+      console.warn("tocContainer is not found");
       return;
     }
 
     // 初始化TOC数据
-    const articleElement = document.querySelector<HTMLElement>(props.articleSelector || '#article-main');
+    const articleElement = document.querySelector<HTMLElement>(
+      props.articleSelector || "#article-main"
+    );
     if (!articleElement) return;
 
-    const items = parseTocItems(articleElement, props.headingSelector || 'h1, h2, h3, h4');
+    const items = parseTocItems(
+      articleElement,
+      props.headingSelector || "h1, h2, h3, h4"
+    );
     setTocItems(items);
-    
+
     // 计算TOC容器高度
     const updateContainerHeight = () => {
       const currentHeaderHeight = calculateHeaderHeight();
@@ -400,9 +438,11 @@ export function TableOfContents(props: TocProps) {
     updateContainerHeight();
 
     // 窗口大小变化时重新计算
-    window.addEventListener('resize', updateContainerHeight);
-    
-    onCleanup(() => window.removeEventListener('resize', updateContainerHeight));
+    window.addEventListener("resize", updateContainerHeight);
+
+    onCleanup(() =>
+      window.removeEventListener("resize", updateContainerHeight)
+    );
   });
 
   // 计算所有header的高度
@@ -422,29 +462,34 @@ export function TableOfContents(props: TocProps) {
 
     // 监听停止更新事件 - 仅停止滚动状态同步，通常在页面加载前触发
     const onStop = () => {
-      console.log('TOC: 停止滚动同步');
+      // console.log("TOC: 停止滚动同步");
       setStopSync(true);
     };
 
     // 监听更新事件 - 页面加载后触发，重新解析内容并恢复滚动同步
     const onUpdate = () => {
-      console.log('TOC: 更新内容并恢复滚动同步');
+      // console.log("TOC: 更新内容并恢复滚动同步");
       // 重新解析文章内容
-      const articleElement = document.querySelector<HTMLElement>(props.articleSelector || '#article-main');
+      const articleElement = document.querySelector<HTMLElement>(
+        props.articleSelector || "#article-main"
+      );
       if (articleElement) {
-        const items = parseTocItems(articleElement, props.headingSelector || 'h1, h2, h3, h4');
+        const items = parseTocItems(
+          articleElement,
+          props.headingSelector || "h1, h2, h3, h4"
+        );
         setTocItems(items);
       }
       // 启用滚动同步
       setStopSync(false);
     };
 
-    emitter.on('stop', onStop);
-    emitter.on('update', onUpdate);
+    emitter.on("stop", onStop);
+    emitter.on("update", onUpdate);
 
     onCleanup(() => {
-      emitter.off('stop', onStop);
-      emitter.off('update', onUpdate);
+      emitter.off("stop", onStop);
+      emitter.off("update", onUpdate);
     });
   });
 
@@ -459,7 +504,7 @@ export function TableOfContents(props: TocProps) {
   const updateActiveItem = () => {
     // 如果是由点击TOC引起的滚动，则跳过更新
     if (isScrollingToHeading) return;
-    
+
     // 如果设置了停止同步，则跳过更新
     if (stopSync()) return;
 
@@ -472,7 +517,7 @@ export function TableOfContents(props: TocProps) {
     for (let i = items.length - 1; i >= 0; i--) {
       const heading = document.getElementById(items[i].id);
       if (!heading) {
-        console.error('heading not found', items[i].id);
+        console.error("heading not found", items[i].id);
         continue;
       }
 
@@ -496,14 +541,17 @@ export function TableOfContents(props: TocProps) {
 
     // 计算最终的偏移位置
     const elementPosition = targetHeading.getBoundingClientRect().top;
-    const offsetPosition = props.scrollContainer ? props.scrollContainer.scrollTop : window.scrollY;
-    const totalOffset = elementPosition + offsetPosition - headerHeight - (props.offset || 10);
+    const offsetPosition = props.scrollContainer
+      ? props.scrollContainer.scrollTop
+      : window.scrollY;
+    const totalOffset =
+      elementPosition + offsetPosition - headerHeight - (props.offset || 10);
 
     // 平滑滚动到目标位置
     const scrollElement = props.scrollContainer || window;
     scrollElement.scrollTo({
       top: totalOffset,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
 
     // 更新活跃ID
@@ -525,13 +573,13 @@ export function TableOfContents(props: TocProps) {
     const scrollElement = props.scrollContainer || window;
     scrollElement.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
-    setActiveId('');
+    setActiveId("");
 
     // 回调
     if (props.onAfterGoto) {
-      props.onAfterGoto('');
+      props.onAfterGoto("");
     }
   };
 
@@ -540,12 +588,13 @@ export function TableOfContents(props: TocProps) {
     const activeIdValue = activeId();
     if (!activeIdValue) return;
 
-    const tocContainer = tocContainerRef || props.tocContainer || document.querySelector('#toc');
+    const tocContainer =
+      tocContainerRef || props.tocContainer || document.querySelector("#toc");
     if (!tocContainer) return;
 
     // 获取容器和活跃链接
     const activeLink = tocContainer.querySelector(
-      `[data-target="${activeIdValue}"]`,
+      `[data-target="${activeIdValue}"]`
     ) as HTMLElement;
     if (!activeLink) return;
 
@@ -553,11 +602,9 @@ export function TableOfContents(props: TocProps) {
     const containerRect = tocContainer.getBoundingClientRect();
 
     if (linkRect.top < containerRect.top) {
-      tocContainer.scrollTop +=
-        linkRect.top - containerRect.top - 10;
+      tocContainer.scrollTop += linkRect.top - containerRect.top - 10;
     } else if (linkRect.bottom > containerRect.bottom) {
-      tocContainer.scrollTop +=
-        linkRect.bottom - containerRect.bottom + 10;
+      tocContainer.scrollTop += linkRect.bottom - containerRect.bottom + 10;
     }
   });
 
@@ -569,7 +616,7 @@ export function TableOfContents(props: TocProps) {
     const handleScroll = () => {
       // 如果设置了停止同步，则不处理滚动事件
       if (stopSync()) return;
-      
+
       if (!ticking) {
         window.requestAnimationFrame(() => {
           updateActiveItem();
@@ -580,18 +627,18 @@ export function TableOfContents(props: TocProps) {
     };
 
     // 监听滚动事件
-    scrollEl.addEventListener('scroll', handleScroll, {passive: true});
-    
-    onCleanup(() => scrollEl.removeEventListener('scroll', handleScroll));
+    scrollEl.addEventListener("scroll", handleScroll, { passive: true });
+
+    onCleanup(() => scrollEl.removeEventListener("scroll", handleScroll));
   });
 
   return (
-    <Show 
-      when={tocItems().length > 0} 
+    <Show
+      when={tocItems().length > 0}
       fallback={
         <>
           <div class="toc-item toc-title-item">
-            <div class="toc-title font-medium">{props.title || '目录'}</div>
+            <div class="toc-title font-medium">{props.title || "目录"}</div>
           </div>
           <div class="toc-empty text-sm text-gray-500 dark:text-gray-400">
             无目录内容
@@ -606,7 +653,7 @@ export function TableOfContents(props: TocProps) {
             class="toc-title cursor-pointer font-medium"
             onClick={scrollToTop}
           >
-            {props.title || '目录'}
+            {props.title || "目录"}
           </div>
         </div>
 
@@ -617,21 +664,23 @@ export function TableOfContents(props: TocProps) {
             const isActive = () => item.id === activeId();
             const isParentOfActive = () =>
               props.highlightParents &&
-              tocItems().some((i) => i.id === activeId() && i.parentId === item.id);
+              tocItems().some(
+                (i) => i.id === activeId() && i.parentId === item.id
+              );
 
             // 动态计算class名称
             const getClassName = () => {
-              let className = 'toc-link';
+              let className = "toc-link";
 
               // 根据级别添加样式
-              if (item.level === 1) className += ' toc-link-h1';
-              else if (item.level === 2) className += ' toc-link-h2';
-              else if (item.level === 3) className += ' toc-link-h3';
-              else if (item.level === 4) className += ' toc-link-h4';
+              if (item.level === 1) className += " toc-link-h1";
+              else if (item.level === 2) className += " toc-link-h2";
+              else if (item.level === 3) className += " toc-link-h3";
+              else if (item.level === 4) className += " toc-link-h4";
 
               // 添加活跃状态
-              if (isActive()) className += ' toc-link-active';
-              if (isParentOfActive()) className += ' toc-link-parent-active';
+              if (isActive()) className += " toc-link-active";
+              if (isParentOfActive()) className += " toc-link-parent-active";
 
               return className;
             };
@@ -665,11 +714,10 @@ export function TableOfContents(props: TocProps) {
  */
 export function initTableOfContents(
   container: HTMLElement,
-  options: TocProps = {},
+  options: TocProps = {}
 ) {
   if (!container) return;
 
   // 使用Solid.js渲染TOC组件
   render(() => <TableOfContents {...options} />, container);
 }
-
