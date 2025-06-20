@@ -24,16 +24,16 @@ const MenuItem = (props: MenuItemProps) => {
   
   const level = () => props.level || 0;
   const hasChildren = () => props.item.children && props.item.children.length > 0;
-  const isActive = () => props.item.active || 
-    (props.item.children && props.item.children.some(child => child.active || 
-      (child.children && child.children.some(c => c.active))));
   
   // 菜单定位更新
   const updatePosition = () => {
     if (!isOpen() || !itemRef || !menuRef) return;
     
     const middleware = [
-      offset(8),
+      offset({ 
+        mainAxis: level() === 0 ? 4 : 0, 
+        crossAxis: level() === 0 ? 0 : 0 
+      }),
       flip({
         fallbackPlacements: level() === 0 ? ['bottom-start', 'top-start'] : ['right-start', 'left-start', 'bottom-start']
       }),
@@ -147,15 +147,14 @@ const MenuItem = (props: MenuItemProps) => {
     >
       <a 
         href={props.item.link} 
-        onClick={handleToggle}
+        on:click={handleToggle}
+        target={props.item.newWindow ? '_blank' : '_self'}
         class={`
-          flex items-center whitespace-nowrap px-3 py-2 text-sm transition-colors rounded
-          ${isActive() 
-            ? 'text-brand-primary-dark dark:text-brand-primary-light' 
-            : isOpen() 
-              ? 'text-brand-primary dark:text-brand-primary-light'
-              : 'text-text-primary dark:text-text-primary hover:text-brand-primary dark:hover:text-brand-primary-light'}
-          ${level() > 0 ? 'px-4' : ''}
+          flex items-center whitespace-nowrap px-3 py-2 text-sm
+          ${isOpen() 
+            ? 'text-brand-primary dark:text-brand-primary-light bg-state-hover dark:bg-state-hover'
+            : 'text-text-primary dark:text-text-primary hover:text-brand-primary dark:hover:text-brand-primary-light hover:bg-state-hover dark:hover:bg-state-hover'}
+          ${level() > 0 ? 'px-4' : 'rounded'}
         `}
       >
         {props.item.text}
