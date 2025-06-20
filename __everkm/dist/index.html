@@ -1,0 +1,238 @@
+<!DOCTYPE html><html class="light" lang="zh-CN"><head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Youlog | Youlog Theme</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  <!-- Favicon -->
+  <!-- <link rel="icon" type="image/svg+xml" href="/assets/logos/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/logos/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/logos/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/assets/logos/favicon-64x64.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="/assets/logos/favicon-128x128.png">
+  <link rel="icon" type="image/png" sizes="256x256" href="/assets/logos/favicon-256x256.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logos/apple-touch-icon.png"> -->
+  
+  <link rel="stylesheet" href="#0f766e">
+  
+  <meta name="theme-color" content="#1E7274">
+  <script>
+    window.__everkm_lang = "en_US";
+    window.__everkm_base_url = "";
+  </script>
+  <link rel="stylesheet" href="/assets/youlog.F5ZVYXVI.css">
+  <script src="/assets/youlog.CCA6MKBR.js"></script>
+  <link href="/assets/plugin-in-search.DVRGGPKP.css" rel="stylesheet">
+  <script src="/assets/plugin-in-search.LNTAOPZG.js"></script>
+  <script src="/assets/alpinejs@3.14.9.js" defer=""></script>
+  
+</head>
+
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  
+
+
+
+
+
+<div class="flex h-dvh">
+    <!-- 导航侧边栏 - 独立滚动 -->
+    <aside id="sidebar-nav" class="w-72 bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700
+                fixed h-dvh lg:sticky top-0 z-50
+                transform transition-transform duration-300 lg:translate-x-0 -translate-x-full
+                flex flex-col">
+        <div class="flex h-14 items-center justify-between px-2 md:px-4 bg-gray-50 dark:bg-gray-900 z-10">
+            <a href="/" data-logo="" class="flex items-center">
+                
+                    <span class="ml-2 text-lg font-medium">Youlog Theme</span>
+                
+            </a>
+            <!-- 关闭按钮 - 仅在小屏幕时显示 -->
+            <button class="lg:hidden p-1.5 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700" data-drawer-close="sidebar-nav">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    </path>
+                </svg>
+            </button>
+        </div>
+        <!-- 导航菜单内容 - 使用嵌套ul结构 -->
+        <nav id="sidebar-nav-tree" class="flex-1 markdown-body !py-0 px-4 !bg-transparent nav-tree invisible overflow-y-auto">
+            
+            <ul>
+<li><a href="/">Home</a></li>
+</ul>
+
+        </nav>
+    </aside>
+
+    <!-- 右侧内容区 -->
+    <div class="flex-1 flex flex-col overflow-auto" id="body-main">
+        <!-- 顶部导航 - sticky -->
+        <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-30">
+            <div class="flex h-14 items-center justify-between px-2 md:px-4">
+                <!-- 左侧：移动端菜单按钮和标题 -->
+                <div class="flex items-center gap-2 flex-1 min-w-0">
+                    <button data-drawer-toggle="sidebar-nav" class="lg:hidden p-1.5 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-700">
+                        <svg fill="none" stroke="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    <div class="flex-1 min-w-0">
+                        <h1 class="text-lg font-semibold text-gray-900 dark:text-white truncate hidden-repeat-site-name" data-app-name="">
+                            Youlog Theme
+                        </h1>
+                        <h1 data-article-title="" class="text-lg font-semibold text-gray-900 dark:text-white truncate cursor-pointer hidden">
+                            Youlog
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- 右侧：导航链接和暗黑模式切换 -->
+                <div class="flex items-center space-x-4 flex-shrink-0">
+                    
+                        <x-in-search only-button="false" app-id="1N74YC70XF" api-key="95bb37e3122ee9cb57a8ee0abbd14409" index="yilog" site="theme-youlog"></x-in-search>
+                    
+                    
+                    <!-- 菜单按钮 - 仅在中小屏幕显示 -->
+                    
+                    <div id="mobile-menu-container" class="md:hidden">
+                        <!-- 移动菜单控制器将在此渲染 -->
+                    </div>
+                    
+
+                    <!-- 原始导航菜单 - 纯净的UL嵌套列表 -->
+                    
+                    <nav id="header-nav" class="hidden md:block invisible">
+                        
+<ul>
+    
+    <li>
+        <a target="_blank" href="/">首页</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://publish.everkm.cn/docs/" target="_blank">文档</a>
+        
+    </li>
+    
+    <li>
+        <a href="https://publish.everkm.cn/guide/" target="_blank">使用指南</a>
+        
+    </li>
+    
+</ul>
+
+                    </nav>
+                    
+                    <button class="p-1.5 text-text-secondary dark:text-text-secondary rounded-full hover:bg-gray-100 dark:hover:bg-gray-700" onclick="openThemeSetting()">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 16 16"><path fill="currentColor" d="M12 13q-.68 0-1.21-.236a1.95 1.95 0 0 1-.841-.707q-.305-.472-.305-1.17q0-.591.217-.993a1.8 1.8 0 0 1 .591-.647q.374-.245.85-.369q.48-.125 1.01-.175q.618-.064.998-.12q.379-.06.55-.175c.171-.115.171-.191.171-.342v-.028q0-.438-.277-.679q-.273-.24-.776-.24q-.531 0-.845.236a1.2 1.2 0 0 0-.231.221c-.147.187-.355.348-.592.328l-.845-.068c-.301-.025-.516-.312-.392-.587a2.4 2.4 0 0 1 .369-.577q.406-.475 1.05-.73q.646-.259 1.5-.26a4.5 4.5 0 0 1 1.13.14q.545.139.965.429q.424.29.67.748q.245.451.245 1.09v4.28a.5.5 0 0 1-.5.5h-.866a.5.5 0 0 1-.5-.5v-.484h-.055a2 2 0 0 1-.457.586q-.286.249-.688.393a2.9 2.9 0 0 1-.928.138zm.563-1.36q.434 0 .767-.171q.333-.176.522-.471c.189-.295.189-.42.189-.67v-.753q-.092.06-.254.111q-.157.046-.356.088a18 18 0 0 1-.397.07l-.36.05a2.4 2.4 0 0 0-.605.162a1 1 0 0 0-.402.3a.73.73 0 0 0-.143.462q0 .402.291.614q.295.208.748.208"></path><path d="M5.47 1.34a.501.501 0 0 0-.949.009l-3.28 10.3a.5.5 0 0 1-.476.348H.496a.5.5 0 0 0 0 1h2.5a.5.5 0 0 0 0-1h-.474a.25.25 0 0 1-.238-.326l.422-1.33a.5.5 0 0 1 .476-.348h2.86a.5.5 0 0 1 .476.346l.43 1.33a.25.25 0 0 1-.238.327h-.219a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-.034a.5.5 0 0 1-.473-.339l-3.52-10.3zM5.846 9a.175.175 0 0 0 .166-.229l-1.25-3.85a.175.175 0 0 0-.333 0l-1.22 3.85A.175.175 0 0 0 3.376 9z" clip-rule="evenodd" fill-rule="evenodd" fill="currentColor"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <div class="flex-1">
+            <div class="container mx-auto px-4 py-8">
+                <div class="flex flex-col lg:flex-row">
+                    <!-- 左侧：正文内容 -->
+                    <div class="w-full lg:w-3/4 pr-0 lg:pl-4 lg:pr-8 leading-relaxed relative">
+
+                        
+<div id="breadcrumb" class="text-text-tertiary dark:text-text-tertiary text-[0.95em] mx-auto flex items-center flex-wrap relative -top-6">
+    
+</div>
+
+
+                        <h1 class="text-4xl font-bold text-gray-900 dark:text-white text-center mb-8" id="article-title">
+                            Youlog
+                        </h1>
+
+                        <article class="prose prose-sm sm:prose lg:prose-lg dark:prose-invert max-w-none markdown-body !pt-0" id="article-main">
+                            <p>Comming Soon...</p>
+
+                        </article>
+
+                        
+                            <yousha-comment community="youlog-theme"></yousha-comment>
+                        
+
+                        <!-- 分页导航 -->
+                        
+                        <div id="page-indicator">
+                            
+                        </div>
+
+                        <!-- bottom -->
+                        <div class="mt-10 pt-8 flex flex-col items-center justify-center gap-2">
+                            <!-- bottom nav -->
+                            <div class="flex items-center flex-wrap justify-center gap-2 text-sm text-text-secondary dark:text-text-secondary">
+                                
+                                    
+                                        <a class="hover:text-text-secondary hover:underline dark:hover:text-text-secondary transition-colors" href="https://everkm.cn" target="_blank">
+                                            everkm
+                                        </a>
+                                        
+                                            <span class="text-text-quaternary dark:text-text-quaternary">|</span>
+                                        
+                                    
+                                        <a href="https://publish.everkm.cn" target="_blank" class="hover:text-text-secondary hover:underline dark:hover:text-text-secondary transition-colors">
+                                            publish
+                                        </a>
+                                        
+                                    
+                                
+                            </div>
+
+                            <!-- copy right and beian -->
+                            <div class="text-text-tertiary dark:text-text-tertiary text-sm text-center flex flex-wrap justify-center items-center gap-2">
+                                
+                                    <span>
+                                        
+                                            ©2025
+                                        
+                                        
+                                        
+                                            
+                                                <a href="https://everkm.cn" class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">everkm</a>
+                                            
+                                        
+                                    </span>
+                                
+
+                               
+                                
+                                
+
+                                <span class="flex items-center">
+                                    <svg stroke="currentColor" viewBox="0 0 24 24" class="w-4 h-4 inline-block" stroke-width="2" fill="none">
+                                        <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linejoin="round" stroke-linecap="round"></path>
+                                    </svg>
+                                    <a href="https://youlog.theme.everkm.com" class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors" target="_blank" title="Powered by everkm-publish with theme youlog">
+                                        youlog
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧：TOC目录 -->
+                    <div class="w-full lg:w-1/4 mt-8 lg:mt-0">
+                        <div id="toc" class="mb-6 text-[0.9em]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script src="https://share.yousha.top/embed/yousha-comment.js" type="module"></script>
+    <!-- <script src="http://127.0.0.1:8080/assets/js/yousha-comment.js" type="module"></script> -->
+
+
+
+
+
+ </body></html>
