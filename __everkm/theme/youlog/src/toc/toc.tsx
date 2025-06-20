@@ -105,7 +105,7 @@ function generateToc(
   const {
     tocSelector = "#toc",
     articleSelector = "#article-main",
-    headingSelector = "h1, h2, h3, h4",
+    headingSelector = "h1, h2, h3, h4, h5",
     headerSelector = "header",
     offset = 10, // 滚动偏移量
     highlightParents = true,
@@ -189,7 +189,7 @@ function initTocInner(): void {
   const options: TocOptions = {
     tocSelector: "#toc",
     articleSelector: "#article-main",
-    headingSelector: "h1, h2, h3, h4",
+    headingSelector: "h1, h2, h3, h4, h5",
     headerSelector: "header",
     offset: 10, // 滚动偏移量
     highlightParents: true,

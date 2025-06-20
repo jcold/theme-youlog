@@ -12,6 +12,8 @@ import { render } from "solid-js/web";
 // 垂直高度的间距
 export const VERTICAL_PADDING = 20;
 
+const HEADING_SELECTOR = "h1, h2, h3, h4, h5";
+
 // 定义TOC事件类型
 export type TocEvents = {
   stop?: string; // 停止更新
@@ -116,7 +118,26 @@ function parseTocItems(
     tocItems.push(item);
   });
 
-  return tocItems;
+  return itemLevelJustify(tocItems);
+}
+
+function itemLevelJustify(items: TocItem[]) {
+  if (items.length === 0) return items;
+  
+  // 找到最小级别
+  const minLevel = Math.min(...items.map(item => item.level));
+  
+  // 如果最小级别已经是1，则不需要调整
+  if (minLevel === 1) return items;
+  
+  // 计算需要向上提升的级别数
+  const levelOffset = minLevel - 1;
+  
+  // 将所有项目的级别向上提升
+  return items.map(item => ({
+    ...item,
+    level: item.level - levelOffset
+  }));
 }
 
 /**
@@ -149,7 +170,7 @@ export function MobileToc(props: MobileTocProps) {
 
     const items = parseTocItems(
       articleElement,
-      props.headingSelector || "h1, h2, h3, h4"
+      props.headingSelector || HEADING_SELECTOR
     );
     setTocItems(items);
 
@@ -178,7 +199,7 @@ export function MobileToc(props: MobileTocProps) {
       if (articleElement) {
         const items = parseTocItems(
           articleElement,
-          props.headingSelector || "h1, h2, h3, h4"
+          props.headingSelector || HEADING_SELECTOR
         );
         setTocItems(items);
       } else {
@@ -415,7 +436,7 @@ export function TableOfContents(props: TocProps) {
 
     const items = parseTocItems(
       articleElement,
-      props.headingSelector || "h1, h2, h3, h4"
+      props.headingSelector || HEADING_SELECTOR
     );
     setTocItems(items);
 
@@ -476,7 +497,7 @@ export function TableOfContents(props: TocProps) {
       if (articleElement) {
         const items = parseTocItems(
           articleElement,
-          props.headingSelector || "h1, h2, h3, h4"
+          props.headingSelector || HEADING_SELECTOR
         );
         setTocItems(items);
       }
@@ -677,6 +698,7 @@ export function TableOfContents(props: TocProps) {
               else if (item.level === 2) className += " toc-link-h2";
               else if (item.level === 3) className += " toc-link-h3";
               else if (item.level === 4) className += " toc-link-h4";
+              else if (item.level === 5) className += " toc-link-h5";
 
               // 添加活跃状态
               if (isActive()) className += " toc-link-active";
