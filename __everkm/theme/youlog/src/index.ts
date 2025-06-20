@@ -10,6 +10,7 @@ import {initSidebarResizer} from './resizer'
 import {initLazyImg} from './lazyImage'
 import {initAppHeader} from './appHeader'
 import initKeywordHighlighter from './modules/keywordHighlighter'
+import './yousha'
 
 // 调用初始化TOC函数
 initToc()
