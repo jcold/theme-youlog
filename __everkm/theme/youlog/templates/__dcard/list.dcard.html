@@ -42,12 +42,13 @@
     baseUrl: '{{ __page_path_base }}',
     pageQuery: '{% if __env_is_preview %}?{{ page_query(page=1) }}{% endif %}',
     goToPage() {
-      if (this.currentPage >= 1 && this.currentPage <= this.totalPages) {
+      const page = parseInt(this.currentPage);
+      if (page >= 1 && page <= this.totalPages) {
         let url;
-        if (this.currentPage === 1) {
-          url = this.baseUrl + '.html' + this.pageQuery.replace('page=1', 'page=' + this.currentPage);
+        if (page === 1) {
+          url = this.baseUrl + '.html' + this.pageQuery.replace('page=1', 'page=' + page);
         } else {
-          url = this.baseUrl + '.p' + this.currentPage + '.html' + this.pageQuery.replace('page=1', 'page=' + this.currentPage);
+          url = this.baseUrl + '.p' + page + '.html' + this.pageQuery.replace('page=1', 'page=' + page);
         }
         window.dispatchEvent(new CustomEvent('page-navigate', { detail: { url } }));
       }
