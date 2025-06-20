@@ -4,7 +4,7 @@ DIST_DIR=./dist
 fe-install:
 	cd . && pnpm i
 
-fe-build:
+fe-build: fe-clean
 	cd . && NODE_ENV=production pnpm run build
 	ls -Rlh $(DIST_DIR)
 
