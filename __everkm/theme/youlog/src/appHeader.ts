@@ -61,7 +61,7 @@ function watchAppHeader(): void {
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        console.log('entry.isIntersecting', entry.isIntersecting)
+        // console.log('entry.isIntersecting', entry.isIntersecting)
         toggleAppNameDebounce(entry.isIntersecting)
       })
     },
