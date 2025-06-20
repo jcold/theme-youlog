@@ -26,7 +26,7 @@
 <ul>
     {% for item in items %}
     <li>
-        <a href="{{ item.url | safe }}">{{ item.title }}</a>
+        <a href="{{ item.url | default(value=base_url() ~ "/") | safe }}" {% if item.new_window | default(value=true) %}target="_blank"{% endif %}>{{ item.title }}</a>
         {% if item.children %}
         {{ self::render_nav_items(items=item.children) }}
         {% endif %}
@@ -174,7 +174,7 @@
                             <yousha-comment community="{{ __config.yousha.community }}"></yousha-comment>
                         {% endif %}
 
-                        <!-- 底部导航 -->
+                        <!-- 分页导航 -->
                         {% set page = nav_indicator(from_file=summary_file) %}
                         <div id="page-indicator">
                             {% if page.next or page.prev %}
@@ -226,11 +226,11 @@
                             <div class="flex items-center flex-wrap justify-center gap-2 text-sm text-text-secondary dark:text-text-secondary">
                                 {% if __config.bottom_nav and __config.bottom_nav|length > 0 %}
                                     {% for item in __config.bottom_nav %}
-                                        <a href="{{ item.url | safe }}" class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">
+                                        <a href="{{ item.url | safe }}" {% if item.new_window | default(value=true) %}target="_blank"{% endif %} class="hover:text-text-secondary hover:underline dark:hover:text-text-secondary transition-colors">
                                             {{ item.title }}
                                         </a>
                                         {% if not loop.last %}
-                                            <span class="text-text-quaternary dark:text-text-quaternary">·</span>
+                                            <span class="text-text-quaternary dark:text-text-quaternary">|</span>
                                         {% endif %}
                                     {% endfor %}
                                 {% endif %}
@@ -263,7 +263,7 @@
                                         {% for beian in __config.beian %}
                                             <a href="{{ beian.link | safe }}" target="_blank" class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">{{ beian.text }}</a>
                                             {% if not loop.last %}
-                                                <span class="mx-0.5 text-text-quaternary dark:text-text-quaternary"></span>
+                                                <span class="mx-0.5 text-text-quaternary dark:text-text-quaternary">|</span>
                                             {% endif %}
                                         {% endfor %}
                                     </span>
