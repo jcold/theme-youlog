@@ -23,6 +23,7 @@ work: print-ekmp
 		$(EKMP) serve \
 		--work-dir ../ \
 		--theme youlog \
+		--theme-dir ./theme/youlog \
 		--listen=0.0.0.0:9081
 
 export-all: print-ekmp
