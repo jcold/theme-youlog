@@ -176,26 +176,34 @@ function shouldHandleLink(element: HTMLElement | null): boolean {
   // 不是链接元素
   if (!element || element.tagName !== "A") return false;
 
-  let href = (element as HTMLAnchorElement).getAttribute("href");
-
-  // 无效链接或特殊链接
-  if (!href || href.startsWith("#") || href.startsWith("mailto:")) {
-    console.log("不是有效链接", href);
+  let href = (element as HTMLAnchorElement).getAttribute("href") || "";
+  if (href.startsWith("javascript:")) {
     return false;
   }
+
+  if (href.length === 0) {
+    // 空链接，直接忽略
+    return true;
+  }
+
+  // 无效链接或特殊链接
+  if (href.startsWith("#") || href.startsWith("mailto:")) {
+    return false;
+  }
+
+  const hrefFull = new URL(href, window.location.href);
 
   if (href.startsWith("http:") || href.startsWith("https:")) {
     // 检测是否与当前页面同源
     const currentOrigin = window.location.origin;
-    const hrefOrigin = new URL(href).origin;
-    if (currentOrigin !== hrefOrigin) {
-      console.log("不是有效链接", href);
+
+    if (currentOrigin !== hrefFull.origin) {
+      console.log("不是同源链接", href);
       return false;
     }
-
-    // 移除当前页面域名
-    href = href.replace(currentOrigin, "");
   }
+
+  href = hrefFull.pathname;
 
   // 只处理以 / 开头的相对路径
   const isBeginWithBaseUrl = href.startsWith(
