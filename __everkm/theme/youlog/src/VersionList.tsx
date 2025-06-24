@@ -54,7 +54,11 @@ const VersionList = (props: VersionListProps) => {
           <Popover.Content class="popover__content">
             <Popover.Arrow />
             <Popover.Description class="popover__description  max-h-[200px] min-w-[160px] overflow-y-auto p-1">
-              {isLoading() ? (
+              {!props.versionListUrl ? (
+                <div class="text-sm text-amber-500 px-2 py-1">
+                  No version source provided
+                </div>
+              ) : isLoading() ? (
                 <div class="text-sm text-gray-500 px-2 py-1">Loading...</div>
               ) : error() ? (
                 <div class="text-sm text-red-500 px-2 py-1">{error()}</div>
