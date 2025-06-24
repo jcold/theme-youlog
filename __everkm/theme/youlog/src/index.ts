@@ -11,6 +11,7 @@ import {initLazyImg} from './lazyImage'
 import {initAppHeader} from './appHeader'
 import initKeywordHighlighter from './modules/keywordHighlighter'
 import './yousha'
+import './VersionList.tsx'
 
 // 调用初始化TOC函数
 initToc()
