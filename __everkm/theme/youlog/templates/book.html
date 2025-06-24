@@ -26,7 +26,8 @@
 <ul>
     {% for item in items %}
     <li>
-        <a href="{{ item.url | default(value=base_url() ~ "/") | safe }}" {% if item.new_window | default(value=true) %}target="_blank"{% endif %}>{{ item.title }}</a>
+        <a href="{{ item.url | default(value=base_url() ~ " /") | safe }}" {% if item.new_window | default(value=true)
+            %}target="_blank" {% endif %}>{{ item.title }}</a>
         {% if item.children %}
         {{ self::render_nav_items(items=item.children) }}
         {% endif %}
@@ -36,23 +37,27 @@
 {% endmacro render_nav_items %}
 
 {% macro breadcrumb(navs) %}
-<div id="breadcrumb" class="text-text-tertiary dark:text-text-tertiary text-[0.95em] mx-auto flex items-center flex-wrap relative -top-6">
+<div id="breadcrumb"
+    class="text-text-tertiary dark:text-text-tertiary text-[0.95em] mx-auto flex items-center flex-wrap relative -top-6">
     {% if navs %}
-        <a href="{{base_url()}}/" class="text-text-primary dark:text-text-primary hover:text-brand-primary dark:hover:text-brand-primary-light transition-colors inline-flex items-center">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-        </a>
-        {% for nav in navs %}
-            <svg class="w-3 h-3 mx-1 inline-flex items-center" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z"/>
-            </svg>
-            {% if nav.url %}
-                <a class="text-text-primary dark:text-text-primary hover:text-brand-primary dark:hover:text-brand-primary-light transition-colors inline-flex items-center" href="{{nav.url|safe}}">
-            {% endif %}
-            {{nav.caption}}
-            {% if nav.url %}</a>{% endif %}
-        {% endfor %}
+    <a href="{{base_url()}}/"
+        class="text-text-primary dark:text-text-primary hover:text-brand-primary dark:hover:text-brand-primary-light transition-colors inline-flex items-center">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+    </a>
+    {% for nav in navs %}
+    <svg class="w-3 h-3 mx-1 inline-flex items-center" viewBox="0 0 16 16" fill="currentColor">
+        <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
+    </svg>
+    {% if nav.url %}
+    <a class="text-text-primary dark:text-text-primary hover:text-brand-primary dark:hover:text-brand-primary-light transition-colors inline-flex items-center"
+        href="{{nav.url|safe}}">
+        {% endif %}
+        {{nav.caption}}
+        {% if nav.url %}</a>{% endif %}
+    {% endfor %}
     {% endif %}
 </div>
 {% endmacro breadcrumb %}
@@ -73,12 +78,12 @@
         <div class="flex h-14 items-center justify-between px-2 md:px-4 bg-gray-50 dark:bg-gray-900 z-10">
             <a data-logo href="{{base_url()}}/" class="flex items-center">
                 {% if __config.site.logo %}
-                    <img src="{{ base_url(url=__config.site.logo) }}" alt="{{ __config.site.name }}" class="h-7 w-auto">
-                    {% if not __config.layout.only_display_logo %}
-                        <span class="ml-2 text-lg font-medium">{{ __config.site.name }}</span>
-                    {% endif %}
+                <img src="{{ base_url(url=__config.site.logo) }}" alt="{{ __config.site.name }}" class="h-7 w-auto">
+                {% if not __config.layout.only_display_logo %}
+                <span class="ml-2 text-lg font-medium">{{ __config.site.name }}</span>
+                {% endif %}
                 {% else %}
-                    <span class="ml-2 text-lg font-medium">{{ __config.site.name }}</span>
+                <span class="ml-2 text-lg font-medium">{{ __config.site.name }}</span>
                 {% endif %}
             </a>
             <!-- 关闭按钮 - 仅在小屏幕时显示 -->
@@ -113,10 +118,12 @@
                         </svg>
                     </button>
                     <div class="flex-1 min-w-0">
-                        <h1 data-app-name class="text-lg font-semibold text-gray-900 dark:text-white truncate hidden-repeat-site-name">
+                        <h1 data-app-name
+                            class="text-lg font-semibold text-gray-900 dark:text-white truncate hidden-repeat-site-name">
                             {{ __config.site.name }}
                         </h1>
-                        <h1 data-article-title class="text-lg font-semibold text-gray-900 dark:text-white truncate cursor-pointer hidden">
+                        <h1 data-article-title
+                            class="text-lg font-semibold text-gray-900 dark:text-white truncate cursor-pointer hidden">
                             {{ doc.title | default(value='无标题') }}
                         </h1>
                     </div>
@@ -125,13 +132,11 @@
                 <!-- 右侧：导航链接和暗黑模式切换 -->
                 <div class="flex items-center space-x-4 flex-shrink-0">
                     {% if __config.algolia_search %}
-                        <x-in-search app-id="{{ __config.algolia_search.app_id }}" 
-                                    api-key="{{ __config.algolia_search.api_key }}" 
-                                    index="{{ __config.algolia_search.index_name }}"
-                                    site="{{ __config.algolia_search.site }}"
-                                    only-button="false"></x-in-search>
+                    <x-in-search app-id="{{ __config.algolia_search.app_id }}"
+                        api-key="{{ __config.algolia_search.api_key }}" index="{{ __config.algolia_search.index_name }}"
+                        site="{{ __config.algolia_search.site }}" only-button="false"></x-in-search>
                     {% endif %}
-                    
+
                     <!-- 菜单按钮 - 仅在中小屏幕显示 -->
                     {% if __config.header_nav %}
                     <div id="mobile-menu-container" class="md:hidden">
@@ -147,7 +152,13 @@
                     {% endif %}
                     <button onclick="openThemeSetting()"
                         class="p-1.5 text-text-secondary dark:text-text-secondary rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 16 16"><path fill="currentColor" d="M12 13q-.68 0-1.21-.236a1.95 1.95 0 0 1-.841-.707q-.305-.472-.305-1.17q0-.591.217-.993a1.8 1.8 0 0 1 .591-.647q.374-.245.85-.369q.48-.125 1.01-.175q.618-.064.998-.12q.379-.06.55-.175c.171-.115.171-.191.171-.342v-.028q0-.438-.277-.679q-.273-.24-.776-.24q-.531 0-.845.236a1.2 1.2 0 0 0-.231.221c-.147.187-.355.348-.592.328l-.845-.068c-.301-.025-.516-.312-.392-.587a2.4 2.4 0 0 1 .369-.577q.406-.475 1.05-.73q.646-.259 1.5-.26a4.5 4.5 0 0 1 1.13.14q.545.139.965.429q.424.29.67.748q.245.451.245 1.09v4.28a.5.5 0 0 1-.5.5h-.866a.5.5 0 0 1-.5-.5v-.484h-.055a2 2 0 0 1-.457.586q-.286.249-.688.393a2.9 2.9 0 0 1-.928.138zm.563-1.36q.434 0 .767-.171q.333-.176.522-.471c.189-.295.189-.42.189-.67v-.753q-.092.06-.254.111q-.157.046-.356.088a18 18 0 0 1-.397.07l-.36.05a2.4 2.4 0 0 0-.605.162a1 1 0 0 0-.402.3a.73.73 0 0 0-.143.462q0 .402.291.614q.295.208.748.208"/><path fill="currentColor" fill-rule="evenodd" d="M5.47 1.34a.501.501 0 0 0-.949.009l-3.28 10.3a.5.5 0 0 1-.476.348H.496a.5.5 0 0 0 0 1h2.5a.5.5 0 0 0 0-1h-.474a.25.25 0 0 1-.238-.326l.422-1.33a.5.5 0 0 1 .476-.348h2.86a.5.5 0 0 1 .476.346l.43 1.33a.25.25 0 0 1-.238.327h-.219a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-.034a.5.5 0 0 1-.473-.339l-3.52-10.3zM5.846 9a.175.175 0 0 0 .166-.229l-1.25-3.85a.175.175 0 0 0-.333 0l-1.22 3.85A.175.175 0 0 0 3.376 9z" clip-rule="evenodd"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 16 16">
+                            <path fill="currentColor"
+                                d="M12 13q-.68 0-1.21-.236a1.95 1.95 0 0 1-.841-.707q-.305-.472-.305-1.17q0-.591.217-.993a1.8 1.8 0 0 1 .591-.647q.374-.245.85-.369q.48-.125 1.01-.175q.618-.064.998-.12q.379-.06.55-.175c.171-.115.171-.191.171-.342v-.028q0-.438-.277-.679q-.273-.24-.776-.24q-.531 0-.845.236a1.2 1.2 0 0 0-.231.221c-.147.187-.355.348-.592.328l-.845-.068c-.301-.025-.516-.312-.392-.587a2.4 2.4 0 0 1 .369-.577q.406-.475 1.05-.73q.646-.259 1.5-.26a4.5 4.5 0 0 1 1.13.14q.545.139.965.429q.424.29.67.748q.245.451.245 1.09v4.28a.5.5 0 0 1-.5.5h-.866a.5.5 0 0 1-.5-.5v-.484h-.055a2 2 0 0 1-.457.586q-.286.249-.688.393a2.9 2.9 0 0 1-.928.138zm.563-1.36q.434 0 .767-.171q.333-.176.522-.471c.189-.295.189-.42.189-.67v-.753q-.092.06-.254.111q-.157.046-.356.088a18 18 0 0 1-.397.07l-.36.05a2.4 2.4 0 0 0-.605.162a1 1 0 0 0-.402.3a.73.73 0 0 0-.143.462q0 .402.291.614q.295.208.748.208" />
+                            <path fill="currentColor" fill-rule="evenodd"
+                                d="M5.47 1.34a.501.501 0 0 0-.949.009l-3.28 10.3a.5.5 0 0 1-.476.348H.496a.5.5 0 0 0 0 1h2.5a.5.5 0 0 0 0-1h-.474a.25.25 0 0 1-.238-.326l.422-1.33a.5.5 0 0 1 .476-.348h2.86a.5.5 0 0 1 .476.346l.43 1.33a.25.25 0 0 1-.238.327h-.219a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-.034a.5.5 0 0 1-.473-.339l-3.52-10.3zM5.846 9a.175.175 0 0 0 .166-.229l-1.25-3.85a.175.175 0 0 0-.333 0l-1.22 3.85A.175.175 0 0 0 3.376 9z"
+                                clip-rule="evenodd" />
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -162,7 +173,8 @@
 
                         {{ self::breadcrumb(navs=nav_path(from_file=summary_file, merge=__breadcrumbs)) }}
 
-                        <h1 id="article-title" class="text-4xl font-bold text-gray-900 dark:text-white text-center mb-8">
+                        <h1 id="article-title"
+                            class="text-4xl font-bold text-gray-900 dark:text-white text-center mb-8">
                             {{ doc.title | default(value='无标题') }}
                         </h1>
 
@@ -172,7 +184,7 @@
                         </article>
 
                         {% if __config.yousha %}
-                            <yousha-comment community="{{ __config.yousha.community }}"></yousha-comment>
+                        <yousha-comment community="{{ __config.yousha.community }}"></yousha-comment>
                         {% endif %}
 
                         <!-- 分页导航 -->
@@ -223,59 +235,105 @@
 
                         <!-- bottom -->
                         <div class="mt-10 pt-8 flex flex-col items-center justify-center gap-2">
+
                             <!-- bottom nav -->
-                            <div class="flex items-center flex-wrap justify-center gap-2 text-sm text-text-secondary dark:text-text-secondary">
+                            <div
+                                class="flex items-center flex-wrap justify-center gap-2 text-sm text-text-secondary dark:text-text-secondary">
                                 {% if __config.bottom_nav and __config.bottom_nav|length > 0 %}
-                                    {% for item in __config.bottom_nav %}
-                                        <a href="{{ item.url | safe }}" {% if item.new_window | default(value=true) %}target="_blank"{% endif %} class="hover:text-text-secondary hover:underline dark:hover:text-text-secondary transition-colors">
-                                            {{ item.title }}
-                                        </a>
-                                        {% if not loop.last %}
-                                            <span class="text-text-quaternary dark:text-text-quaternary">|</span>
-                                        {% endif %}
-                                    {% endfor %}
+                                {% for item in __config.bottom_nav %}
+                                <a href="{{ item.url | safe }}" {% if item.new_window | default(value=true)
+                                    %}target="_blank" {% endif %}
+                                    class="hover:text-text-secondary hover:underline dark:hover:text-text-secondary transition-colors">
+                                    {{ item.title }}
+                                </a>
+                                {% if not loop.last %}
+                                <span class="text-text-quaternary dark:text-text-quaternary">|</span>
+                                {% endif %}
+                                {% endfor %}
                                 {% endif %}
                             </div>
 
+                            <!-- youlog platform -->
+                            <div
+                                class="text-text-tertiary dark:text-text-tertiary text-sm text-center flex flex-wrap justify-center items-center">
+                                {% set youlog_platform = env(name="YOULOG_PLATFORM", default="") %}
+                                {% if youlog_platform %}
+                                <span>
+                                    <a href="{{ youlog_platform | safe }}" target="_blank"
+                                        class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">
+                                        Youlog
+                                    </a>
+                                    <span class="mx-2 text-text-quaternary dark:text-text-quaternary">|</span>
+                                </span>
+                                {% endif %}
+
+                                {% set versions_url = env(name="YOULOG_VERSIONS_URL", default="") %}
+                                {% set youlog_version = env(name="YOULOG_VERSION", default="") %}
+                                {% if youlog_version %}
+                                <span>
+                                    <youlog-version
+                                        class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors cursor-pointer"
+                                        onclick="window.open('{{ versions_url | safe }}', '_blank')">
+                                        v{{ youlog_version }}
+                                    </youlog-version>
+                                    <!-- <span class="mx-2 text-text-quaternary dark:text-text-quaternary">|</span> -->
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+
                             <!-- copy right and beian -->
-                            <div class="text-text-tertiary dark:text-text-tertiary text-sm text-center flex flex-wrap justify-center items-center gap-2">
-                                {% if __config.copyright %}
-                                    <span>
-                                        {% if __config.copyright.from_year %}
-                                            ©{{ __config.copyright.from_year }}-{{ now() | date(format="%Y") }}
-                                        {% else %}
-                                            ©{{ now() | date(format="%Y") }}
-                                        {% endif %}
-                                        
-                                        {% if __config.copyright.text %}
-                                            {% if __config.copyright.link %}
-                                                <a href="{{ __config.copyright.link | safe }}" class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">{{ __config.copyright.text }}</a>
-                                            {% else %}
-                                                {{ __config.copyright.text }}
-                                            {% endif %}
-                                        {% endif %}
-                                    </span>
-                                {% endif %}
-
-                               
+                            <div
+                                class="text-text-tertiary dark:text-text-tertiary text-sm text-center flex flex-wrap justify-center items-center">
                                 
-                                {% if __config.beian and __config.beian|length > 0 %}
-                                    <span>
-                                        {% for beian in __config.beian %}
-                                            <a href="{{ beian.link | safe }}" target="_blank" class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">{{ beian.text }}</a>
-                                            {% if not loop.last %}
-                                                <span class="mx-0.5 text-text-quaternary dark:text-text-quaternary">|</span>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </span>
+                                {% if __config.copyright %}
+                                <span>
+                                    {% if __config.copyright.from_year %}
+                                        ©{{ __config.copyright.from_year }}-{{ now() | date(format="%Y") }}
+                                    {% else %}
+                                        ©{{ now() | date(format="%Y") }}
+                                    {% endif %}
+
+                                    {% if __config.copyright.text %}
+                                        {% if __config.copyright.link %}
+                                            <a href="{{ __config.copyright.link | safe }}" target="_blank"
+                                                class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">
+                                                {{ __config.copyright.text }}
+                                            </a>
+                                        {% else %}
+                                            {{ __config.copyright.text }}
+                                        {% endif %}
+                                    {% endif %}
+                                </span>
                                 {% endif %}
 
+
+
+                                {% if __config.beian and __config.beian|length > 0 %}
+                                <span>
+                                    {% for beian in __config.beian %}
+                                        <a href="{{ beian.link | safe }}" target="_blank"
+                                            class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">{{
+                                            beian.text }}</a>
+                                        {% if not loop.last %}
+                                            <span class="mx-2 text-text-quaternary dark:text-text-quaternary">|</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </span>
+                                {% endif %}
+
+
+                                <!-- Theme -->
                                 <span class="flex items-center">
-                                    <svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    <svg class="w-4 h-4 inline-block" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M13 10V3L4 14h7v7l9-11h-7z" />
                                     </svg>
-                                    <a href="https://youlog.theme.everkm.com" target="_blank" title="Powered by everkm-publish with theme youlog" class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">
-                                        youlog
+                                    <a href="https://youlog.theme.everkm.com" target="_blank"
+                                        title="Powered by everkm-publish with theme youlog"
+                                        class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">
+                                        {% if youlog_platform %}Theme{% else %}Youlog{% endif %}
                                     </a>
                                 </span>
                             </div>
@@ -293,10 +351,8 @@
 </div>
 
 {% if __config.yousha %}
-    <script src="https://share.yousha.top/embed/yousha-comment.js" type="module"></script>
-    <!-- <script src="http://127.0.0.1:8080/assets/js/yousha-comment.js" type="module"></script> -->
+<script src="https://share.yousha.top/embed/yousha-comment.js" type="module"></script>
+<!-- <script src="http://127.0.0.1:8080/assets/js/yousha-comment.js" type="module"></script> -->
 {% endif %}
 
 {% endblock %}
-
-

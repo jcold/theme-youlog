@@ -7,18 +7,12 @@
   <title>{% block page_title %}{% endblock page_title %}{{ __config.site.name }}</title>
   <meta name="description" content="{%block page_description%}{%endblock page_description%}" />
   <meta name="keywords" content="{%block page_keywords%}{%endblock page_keywords%}" />
-  <!-- Favicon -->
-  <!-- <link rel="icon" type="image/svg+xml" href="{{base_url()}}/assets/logos/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{base_url()}}/assets/logos/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{base_url()}}/assets/logos/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="64x64" href="{{base_url()}}/assets/logos/favicon-64x64.png">
-  <link rel="icon" type="image/png" sizes="128x128" href="{{base_url()}}/assets/logos/favicon-128x128.png">
-  <link rel="icon" type="image/png" sizes="256x256" href="{{base_url()}}/assets/logos/favicon-256x256.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{base_url()}}/assets/logos/apple-touch-icon.png"> -->
-  {% if __config.theme_color %}
-  <link rel="stylesheet" href="{{ __config.theme_color }}">
+  {% if __config.custom_css %}
+  <link rel="stylesheet" href="{{ asset_base_url(url=__config.custom_css) }}">
   {% endif %}
-  <meta name="theme-color" content="#1E7274">
+  {% if __config.theme_color %}
+  <meta name="theme-color" content="{{__config.theme_color}}">
+  {% endif %}
   <script>
     window.__everkm_lang = "{{ __lang | default(value='') }}";
     window.__everkm_base_url = "{{ env(name='EVERKM_BASE_URL', default=base_url()) |safe }}";
@@ -28,9 +22,6 @@
   {{asset(type="css", section="plugin-in-search")}}
   {{asset(type="js", section="plugin-in-search")}}
   <script src="{{asset_base_url()}}/assets/alpinejs@3.14.9.js" defer></script>
-  {% if __config.custom_css %}
-  <link rel="stylesheet" href="{{ base_url(url=__config.custom_css) }}">
-  {% endif %}
 </head>
 
 <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">

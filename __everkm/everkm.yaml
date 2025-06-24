@@ -26,6 +26,9 @@ config:
   # 评论
   yousha:
     community: youlog-theme
+
+  # 版本列表
+  versions_url: /dayu/haowen/versions.json
   
   # 备案信息
   # beian:
