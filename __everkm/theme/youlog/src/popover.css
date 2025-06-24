@@ -5,10 +5,9 @@
 
 .popover__content {
   z-index: 50;
-  max-width: min(calc(100vw - 16px), 380px);
+  max-width: min(calc(100vw - 16px), 260px);
   border: 1px solid hsl(240 5% 84%);
   border-radius: 6px;
-  padding: 12px;
   background-color: white;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   transform-origin: var(--kb-popover-content-transform-origin);
@@ -17,26 +16,6 @@
 }
 .popover__content[data-expanded] {
   animation: contentShow 250ms ease-out;
-}
-.popover__header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-.popover__close-button {
-  height: 16px;
-  width: 16px;
-  color: hsl(240 5% 34%);
-}
-.popover__title {
-  font-size: 16px;
-  font-weight: 500;
-  color: hsl(240 6% 10%);
-}
-.popover__description {
-  font-size: 14px;
-  color: hsl(240 5% 26%);
 }
 @keyframes contentShow {
   from {
