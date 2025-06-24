@@ -273,36 +273,35 @@
                                 <span>
                                     <youlog-version
                                         class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors cursor-pointer"
-                                        version-list-url="{{ versions_url | safe }}">
-                                        v{{ youlog_version }}
+                                        version-list-url="{{ versions_url | safe }}" version="{{ youlog_version }}">
                                     </youlog-version>
                                     <!-- <span class="mx-2 text-text-quaternary dark:text-text-quaternary">|</span> -->
                                 </span>
                                 {% endif %}
                             </div>
-                            
+
 
                             <!-- copy right and beian -->
                             <div
                                 class="text-text-tertiary dark:text-text-tertiary text-sm text-center flex flex-wrap justify-center items-center">
-                                
+
                                 {% if __config.copyright %}
                                 <span>
                                     {% if __config.copyright.from_year %}
-                                        ©{{ __config.copyright.from_year }}-{{ now() | date(format="%Y") }}
+                                    ©{{ __config.copyright.from_year }}-{{ now() | date(format="%Y") }}
                                     {% else %}
-                                        ©{{ now() | date(format="%Y") }}
+                                    ©{{ now() | date(format="%Y") }}
                                     {% endif %}
 
                                     {% if __config.copyright.text %}
-                                        {% if __config.copyright.link %}
-                                            <a href="{{ __config.copyright.link | safe }}" target="_blank"
-                                                class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">
-                                                {{ __config.copyright.text }}
-                                            </a>
-                                        {% else %}
-                                            {{ __config.copyright.text }}
-                                        {% endif %}
+                                    {% if __config.copyright.link %}
+                                    <a href="{{ __config.copyright.link | safe }}" target="_blank"
+                                        class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">
+                                        {{ __config.copyright.text }}
+                                    </a>
+                                    {% else %}
+                                    {{ __config.copyright.text }}
+                                    {% endif %}
                                     {% endif %}
                                 </span>
                                 {% endif %}
@@ -312,12 +311,12 @@
                                 {% if __config.beian and __config.beian|length > 0 %}
                                 <span>
                                     {% for beian in __config.beian %}
-                                        <a href="{{ beian.link | safe }}" target="_blank"
-                                            class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">{{
-                                            beian.text }}</a>
-                                        {% if not loop.last %}
-                                            <span class="mx-2 text-text-quaternary dark:text-text-quaternary">|</span>
-                                        {% endif %}
+                                    <a href="{{ beian.link | safe }}" target="_blank"
+                                        class="hover:text-text-secondary dark:hover:text-text-secondary transition-colors">{{
+                                        beian.text }}</a>
+                                    {% if not loop.last %}
+                                    <span class="mx-2 text-text-quaternary dark:text-text-quaternary">|</span>
+                                    {% endif %}
                                     {% endfor %}
                                 </span>
                                 {% endif %}
