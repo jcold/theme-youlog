@@ -15,7 +15,7 @@
   {% endif %}
   <script>
     window.__everkm_lang = "{{ __lang | default(value='') }}";
-    window.__everkm_base_url = "{{ env(name='EVERKM_BASE_URL', default=base_url()) |safe }}";
+    window.__everkm_base_url = "{{ base_url() ~ '/' | safe }}";
   </script>
   {{asset(type="css", section="youlog")}}
   {{asset(type="js", section="youlog")}}

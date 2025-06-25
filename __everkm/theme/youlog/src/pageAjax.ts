@@ -205,12 +205,15 @@ function shouldHandleLink(element: HTMLElement | null): boolean {
 
   href = hrefFull.pathname;
 
+  let capturePrefix = (window as any).__everkm_base_url || "/";
+  if (!capturePrefix.endsWith("/")) {
+    capturePrefix = capturePrefix + "/";
+  }
+
   // 只处理以 / 开头的相对路径
-  const isBeginWithBaseUrl = href.startsWith(
-    (window as any).__everkm_base_url || "/"
-  );
+  const isBeginWithBaseUrl = href.startsWith(capturePrefix);
   if (!isBeginWithBaseUrl) {
-    console.log("不是有效的内部链接", href);
+    console.log("不是有效的内部链接:", href, "capturePrefix:", capturePrefix);
     return false;
   }
 

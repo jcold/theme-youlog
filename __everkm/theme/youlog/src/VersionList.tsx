@@ -110,23 +110,24 @@ interface VersionItems {
 }
 
 const VersionItems = (props: VersionItems) => {
-  return props.versionList.reverse().map((item) => (
+  return (
     <ul class="list-none">
-      {/* {new Array(1).fill(0).map((_, index) => ( */}
-      <li>
-        <a
-          href={item.url}
-          class="text-sm text-gray-500 py-1 px-2 hover:bg-gray-100 rounded block"
-        >
-          {item.version}
-          {props.currentVersion === item.version && (
-            <span class="text-sm opacity-60 ml-1 italic">(current)</span>
-          )}
-        </a>
-      </li>
-      {/* ))} */}
+      {props.versionList.reverse().map((item) => (
+        <li>
+          <a
+            href={item.url}
+            class="text-sm text-gray-500 py-1 px-2 hover:bg-gray-100 rounded block"
+          >
+            {item.version}
+            {(window.location.pathname.startsWith(item.url) ||
+              props.currentVersion === item.version) && (
+              <span class="text-sm opacity-60 ml-1 italic">&#10004;</span>
+            )}
+          </a>
+        </li>
+      ))}
     </ul>
-  ));
+  );
 };
 
 interface VersionListProps extends JSX.DOMAttributes<HTMLElement> {
