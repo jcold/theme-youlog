@@ -76,14 +76,14 @@
                 transform transition-transform duration-300 lg:translate-x-0 -translate-x-full
                 flex flex-col">
         <div class="flex h-14 items-center justify-between px-2 md:px-4 bg-gray-50 dark:bg-gray-900 z-10">
-            <a data-logo href="{{base_url()}}/" class="flex items-center">
+            <a data-logo href="{{base_url()}}/" class="flex items-center gap-2">
                 {% if __config.site.logo %}
                 <img src="{{ base_url(url=__config.site.logo) }}" alt="{{ __config.site.name }}" class="h-7 w-auto">
                 {% if not __config.layout.only_display_logo %}
-                <span class="ml-2 text-lg font-medium">{{ __config.site.name }}</span>
+                <span class="text-lg font-medium">{{ __config.site.name }}</span>
                 {% endif %}
                 {% else %}
-                <span class="ml-2 text-lg font-medium">{{ __config.site.name }}</span>
+                <span class="text-lg font-medium">{{ __config.site.name }}</span>
                 {% endif %}
             </a>
             <!-- 关闭按钮 - 仅在小屏幕时显示 -->
