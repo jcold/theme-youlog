@@ -268,7 +268,7 @@ class NavTreeManager {
   }
 
   // 展开包含当前页面的导航路径
-  private expandCurrentPath(navTree: HTMLElement): void {
+  private expandCurrentPath(navTree: HTMLElement): HTMLElement | null {
     // 移除查询参数，只保留路径部分进行匹配
     const currentPath = removeQueryParams(window.location.pathname);
 
@@ -277,26 +277,6 @@ class NavTreeManager {
     let activeLink: HTMLElement | null = null;
     const matchingElements: HTMLElement[] = [];
 
-    let foundActiveLink = false;
-
-    // 找到活动链接, 处理活动链接
-    const onFoundActiveLink = (link: HTMLElement) => {
-      // 标记当前活动项
-      const listItem = link.closest("li");
-      if (listItem) {
-        listItem.classList.add("active");
-
-        // 为当前项链接添加高亮样式
-        link.classList.add("active-link");
-        activeLink = link as HTMLElement;
-
-        // 收集需要展开的所有父元素
-        this.collectParentElements(listItem, matchingElements);
-
-        foundActiveLink = true;
-      }
-    };
-
     links.forEach((link) => {
       const href = link.getAttribute("href");
       if (href) {
@@ -304,39 +284,85 @@ class NavTreeManager {
         const absoluteHref = removeQueryParams(toAbsoluteUrl(href));
 
         // 检查是否匹配当前路径
+        console.log("currentPath", currentPath, absoluteHref);
         if (this.isMatchingPath(currentPath, absoluteHref)) {
-          onFoundActiveLink(link);
+          activeLink = this.findActiveLink(link, matchingElements);
         }
       }
     });
 
-    // 如果没有任何链接匹配, 则收集所有前缀匹配，选取路径段最长者
-    if (!foundActiveLink) {
-      const prefixMatchingElements: [HTMLAnchorElement, string][] = [];
-      links.forEach((link) => {
-        const href = link.getAttribute("href");
-        if (href) {
-          const absoluteHref = removeQueryParams(toAbsoluteUrl(href));
-          if (this.isMatchingPrefix(currentPath, absoluteHref)) {
-            prefixMatchingElements.push([link, absoluteHref]);
-          }
-        }
-      });
+    // 高亮活动链接
+    this.highlightActiveLink(activeLink, matchingElements);
+    return activeLink;
+  }
 
-      // 使用路径段最长者
-      const longestPrefixMatchingElement = prefixMatchingElements.sort(
-        (a, b) => b[1].split("/").length - a[1].split("/").length
-      )[0];
-      if (longestPrefixMatchingElement) {
-        onFoundActiveLink(longestPrefixMatchingElement[0]);
-      }
-    }
-
+  private highlightActiveLink(
+    activeLink: HTMLElement | null,
+    matchingElements: HTMLElement[]
+  ): void {
     // 展开包含当前页面的所有父级导航
     this.expandElements(matchingElements);
 
     // 滚动到高亮的链接
     this.scrollToActiveLink(activeLink);
+  }
+
+  // 找到活动链接, 处理活动链接
+  private findActiveLink(
+    link: HTMLElement,
+    matchingElements: HTMLElement[]
+  ): HTMLElement | null {
+    // 标记当前活动项
+    const listItem = link.closest("li");
+    if (listItem) {
+      listItem.classList.add("active");
+
+      // 为当前项链接添加高亮样式
+      link.classList.add("active-link");
+
+      // 收集需要展开的所有父元素
+      this.collectParentElements(listItem, matchingElements);
+
+      return link;
+    }
+    return null;
+  }
+
+  // 链接不匹配, 则收集所有前缀匹配，选取路径段最长者
+  private fallbackToLongestPrefixMatchingLink(
+    navTree: HTMLElement
+  ): HTMLElement | null {
+    // 移除查询参数，只保留路径部分进行匹配
+    const currentPath = removeQueryParams(window.location.pathname);
+
+    const links = navTree.querySelectorAll("a");
+    let activeLink: HTMLElement | null = null;
+    const matchingElements: HTMLElement[] = [];
+
+    const prefixMatchingElements: [HTMLAnchorElement, string][] = [];
+    links.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (href) {
+        const absoluteHref = removeQueryParams(toAbsoluteUrl(href));
+        if (this.isMatchingPrefix(currentPath, absoluteHref)) {
+          prefixMatchingElements.push([link, absoluteHref]);
+        }
+      }
+    });
+
+    // 使用路径段最长者
+    const longestPrefixMatchingElement = prefixMatchingElements.sort(
+      (a, b) => b[1].split("/").length - a[1].split("/").length
+    )[0];
+    if (longestPrefixMatchingElement) {
+      return this.findActiveLink(
+        longestPrefixMatchingElement[0],
+        matchingElements
+      );
+    }
+
+    this.highlightActiveLink(activeLink, matchingElements);
+    return activeLink;
   }
 
   // 检查路径是否匹配
@@ -411,6 +437,7 @@ class NavTreeManager {
       this.initNavTrees();
     }
 
+    let hasActive = false;
     this.navTrees.forEach((tree) => {
       // 清除当前的所有高亮
       tree.querySelectorAll(".active, .active-link").forEach((el) => {
@@ -418,8 +445,18 @@ class NavTreeManager {
       });
 
       // 重新应用高亮
-      this.expandCurrentPath(tree);
+      const activeLink = this.expandCurrentPath(tree);
+      if (activeLink) {
+        hasActive = true;
+      }
     });
+
+    // 如果没有任何链接匹配, 则收集所有前缀匹配，选取路径段最长者
+    if (!hasActive) {
+      Array.from(this.navTrees).some((tree) => {
+        return this.fallbackToLongestPrefixMatchingLink(tree);
+      });
+    }
   }
 
   // 手动触发高亮更新
