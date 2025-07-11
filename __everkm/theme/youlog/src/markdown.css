@@ -84,6 +84,15 @@
   @apply bg-gray-50 dark:bg-gray-800/50;
 }
 
+/* 引用块内段落样式 - 修复首尾间距不对称问题 */
+.markdown-body blockquote p:first-child {
+  @apply mt-0;
+}
+
+.markdown-body blockquote p:last-child {
+  @apply mb-0;
+}
+
 /* 代码样式 */
 .markdown-body code {
   @apply bg-gray-100 dark:bg-gray-800;
